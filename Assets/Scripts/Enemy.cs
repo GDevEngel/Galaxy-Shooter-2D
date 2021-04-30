@@ -9,10 +9,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _maxPosX = 9.5f;
     [SerializeField] private float _minPosX = -9.5f;
 
+    public GameObject Player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -24,6 +26,28 @@ public class Enemy : MonoBehaviour
         if (transform.position.y <= _minPosY)
         {
             transform.position = new Vector3(Random.Range(_minPosX, _maxPosX), transform.position.y * -1, 0);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(other);
+
+        //if other is player
+        if (other.tag == "Player")
+        {
+            //dmg player
+            Player.GetComponent<Player>().Damage();
+            //destroy us
+            Destroy(this.gameObject);
+        }
+        //if other is laser
+        else if (other.tag == "Laser")
+        {
+            //destroy laser
+            Destroy(other.gameObject);
+            //destroy us
+            Destroy(this.gameObject);
         }
     }
 }

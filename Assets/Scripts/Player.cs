@@ -13,7 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = 0.25f;
     private float _nextFire = 0f;
     private Vector3 _laserOffset = new Vector3(0f, 0.75f, 0f);
-    public GameObject LaserPrefab; 
+    public GameObject LaserPrefab;
+
+    [SerializeField] private int _health = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -30,11 +32,26 @@ public class Player : MonoBehaviour
         //When fire is pressed AND current game time is greater then previous laser fire time + fire rate(cooldown)
         if (Input.GetButton("Fire1") && Time.time > _nextFire)
         {
-            _nextFire = Time.time + _fireRate; 
-            //instantite laser + Y offset
-            Instantiate(LaserPrefab, transform.position +_laserOffset, Quaternion.identity);
+            FireLaser();
         }
 
+    }
+
+    public void Damage()
+    {
+        _health--;
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    private void FireLaser()
+    {
+        _nextFire = Time.time + _fireRate;
+        //instantite laser + Y offset
+        Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
     }
 
     private void PlayerMovement()
