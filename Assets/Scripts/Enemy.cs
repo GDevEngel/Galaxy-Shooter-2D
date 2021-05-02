@@ -9,12 +9,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _maxPosX = 9.5f;
     [SerializeField] private float _minPosX = -9.5f;
 
-    public GameObject Player;
-
     // Start is called before the first frame update
     void Start()
     {
-
+        //spawn at bottom out of vision to trigger respawn at top
+        transform.position = new Vector3(transform.position.x, _minPosY * 2, 0);
     }
 
     // Update is called once per frame
@@ -22,7 +21,7 @@ public class Enemy : MonoBehaviour
     {
         //move down
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        //if below min position down spawn at top again
+        //if below min position down spawn at top again at random posX
         if (transform.position.y <= _minPosY)
         {
             transform.position = new Vector3(Random.Range(_minPosX, _maxPosX), transform.position.y * -1, 0);
@@ -36,8 +35,15 @@ public class Enemy : MonoBehaviour
         //if other is player
         if (other.tag == "Player")
         {
-            //dmg player
-            Player.GetComponent<Player>().Damage();
+            //get player script 
+            Player player = other.GetComponent<Player>();
+            //null check player
+            if (player != null)
+            {
+                //dmg player
+                player.Damage();
+            }
+
             //destroy us
             Destroy(this.gameObject);
         }
@@ -50,4 +56,5 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
 }
