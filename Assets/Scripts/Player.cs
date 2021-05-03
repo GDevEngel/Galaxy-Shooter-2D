@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _fireRate = 0.25f;
     private float _nextFire = 0f;
-    private Vector3 _laserOffset = new Vector3(0f, 0.75f, 0f);
+    private Vector3 _laserOffset = new Vector3(0f, 1f, 0f);
     public GameObject LaserPrefab;
 
     [SerializeField] private int _health = 3;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         //set starting position
         transform.position = new Vector3(0, -3, 0);
 
-        //
+        //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         //null check
         if (_spawnManager == null)

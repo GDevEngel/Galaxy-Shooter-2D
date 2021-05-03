@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.LogError("Spawnmanager.enemyprefab is NULL");
         }
-        if (enemyPrefab == null)
+        if (enemyContainer == null)
         {
             Debug.LogError("Spawnmanager.enemycontainer is NULL");
         }
