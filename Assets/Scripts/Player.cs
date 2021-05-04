@@ -16,8 +16,14 @@ public class Player : MonoBehaviour
     private float _nextFire = 0f;
     private Vector3 _laserOffset = new Vector3(0f, 1f, 0f);
     [SerializeField] private GameObject LaserPrefab;
+
     [SerializeField] private GameObject LaserTriplePrefab;
     [SerializeField] private bool _isTripleLaserActive;
+
+    [SerializeField] private bool _isSpeedupActive;
+    [SerializeField] private float _speedPowerupModifier = 2f;
+    [SerializeField] private bool _isShieldActive;
+    private GameObject _shield; 
 
     [SerializeField] private int _health = 3;
 
@@ -30,13 +36,22 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, -3, 0);
 
         _isTripleLaserActive = false;
+        _isSpeedupActive = false;
+        _isShieldActive = false;
 
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _shield = GameObject.Find("Player/Shield");
+        _shield.SetActive(false);
+
         //null check
         if (_spawnManager == null)
         {
             Debug.LogError("Player.spawn manager is NULL");
+        }
+        if (_shield == null)
+        {
+            Debug.LogError("Player.shield is NULL");
         }
         if (LaserPrefab == null)
         {
@@ -64,7 +79,19 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _health--;
+        if (_isShieldActive == true)
+        {
+            //deactivate shield gameobject
+            _shield.SetActive(false);
+            _isShieldActive = false;
+            //exit function with return
+            return;
+        }
+        else
+        {
+            _health--;
+        }
+
         if (_health <= 0)
         {
             _spawnManager.OnPlayerDeath();
@@ -110,11 +137,24 @@ public class Player : MonoBehaviour
 
     public void PowerUpPickUp(string PowerUpType)
     {
-        if (PowerUpType == "TripleShot")
+        switch (PowerUpType)
         {
-            _isTripleLaserActive = true;
-            //start coroutine
-            StartCoroutine(TripleShotCooldown());
+            case "TripleShot":
+                _isTripleLaserActive = true;
+                StartCoroutine(TripleShotCooldown());
+                break;
+            case "SpeedUp":
+                _isSpeedupActive = true;
+                StartCoroutine(SpeedUpCooldown());
+                break;
+            case "Shield":
+                _isShieldActive = true;
+                //activate shield game object
+                _shield.SetActive(true);
+                break;
+            default:
+                Debug.Log("Default value in switch statement in Player script for PowerUpType");
+                break;
         }
     }
 
@@ -122,5 +162,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         _isTripleLaserActive = false;
+    }
+    IEnumerator SpeedUpCooldown()
+    {
+        _speed *= _speedPowerupModifier;
+        yield return new WaitForSeconds(5f);
+        _speed /= _speedPowerupModifier;
+        _isSpeedupActive = false;
     }
 }
