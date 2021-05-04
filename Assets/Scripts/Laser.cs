@@ -21,6 +21,12 @@ public class Laser : MonoBehaviour
         //destroy laser if off upper screen
         if (transform.position.y > 10)
         {
+            //check if object has parent            
+            if (transform.parent != null)
+            {
+                //then destroy parent
+                Destroy(transform.parent.gameObject);
+            }
             Destroy(gameObject);
         }
     }

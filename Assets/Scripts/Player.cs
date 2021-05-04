@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //movement config
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _maxPosX = 11.4f;
     [SerializeField] private float _minPosX = -11.4f;
     [SerializeField] private float _maxPosY = 4f;
     [SerializeField] private float _minPosY = -4.2f;
 
+    //laser var
     [SerializeField] private float _fireRate = 0.25f;
     private float _nextFire = 0f;
     private Vector3 _laserOffset = new Vector3(0f, 1f, 0f);
-    public GameObject LaserPrefab;
+    [SerializeField] private GameObject LaserPrefab;
+    [SerializeField] private GameObject LaserTriplePrefab;
+    [SerializeField] private bool _isTripleLaserActive;
 
     [SerializeField] private int _health = 3;
 
@@ -25,6 +29,8 @@ public class Player : MonoBehaviour
         //set starting position
         transform.position = new Vector3(0, -3, 0);
 
+        _isTripleLaserActive = false;
+
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         //null check
@@ -32,6 +38,15 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player.spawn manager is NULL");
         }
+        if (LaserPrefab == null)
+        {
+            Debug.LogError("Player.Laserprefab is NULL");
+        }
+        if (LaserTriplePrefab == null)
+        {
+            Debug.LogError("Player.LaserTriplePrefab is NULL");
+        }
+
     }
 
     // Update is called once per frame
@@ -57,12 +72,21 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private void FireLaser()
     {
         _nextFire = Time.time + _fireRate;
-        //instantite laser + Y offset
-        Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
+
+        //if is triple laser active
+        if (_isTripleLaserActive == true)
+        {
+            //instantiate 3 lasers
+            Instantiate(LaserTriplePrefab, transform.position + _laserOffset, Quaternion.identity);
+        }
+        //else fire 1 laser
+        else {
+            //instantite laser + Y offset
+            Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
+        }                             
     }
 
     private void PlayerMovement()
@@ -82,5 +106,21 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(_maxPosX, transform.position.y, 0);
         }
+    }
+
+    public void PowerUpPickUp(string PowerUpType)
+    {
+        if (PowerUpType == "TripleShot")
+        {
+            _isTripleLaserActive = true;
+            //start coroutine
+            StartCoroutine(TripleShotCooldown());
+        }
+    }
+
+    IEnumerator TripleShotCooldown()
+    {
+        yield return new WaitForSeconds(5f);
+        _isTripleLaserActive = false;
     }
 }
