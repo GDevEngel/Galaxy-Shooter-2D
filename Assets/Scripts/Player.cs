@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _health = 3;
 
     private SpawnManager _spawnManager;
+    private UIManager _uIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -41,10 +42,16 @@ public class Player : MonoBehaviour
 
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uIManager = GameObject.FindObjectOfType<Canvas>().GetComponent<UIManager>();
         _shield = GameObject.Find("Player/Shield");
         _shield.SetActive(false);
 
+
         //null check
+        if (_uIManager == null)
+        {
+            Debug.LogError("Player.uimanager is NULL");
+        }
         if (_spawnManager == null)
         {
             Debug.LogError("Player.spawn manager is NULL");
@@ -77,6 +84,11 @@ public class Player : MonoBehaviour
 
     }
 
+    public void AddScore(int scoreValue)
+    {
+        _uIManager.UpdateUIScore(scoreValue);
+    }
+
     public void Damage()
     {
         if (_isShieldActive == true)
@@ -90,6 +102,7 @@ public class Player : MonoBehaviour
         else
         {
             _health--;
+            _uIManager.UpdateUIHealth(_health);
         }
 
         if (_health <= 0)

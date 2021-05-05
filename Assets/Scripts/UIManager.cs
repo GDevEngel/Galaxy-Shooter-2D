@@ -1,0 +1,64 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIManager : MonoBehaviour
+{
+    private int _score;
+    [SerializeField] private Text _scoreText;
+    [SerializeField] private GameObject _GameOverText;
+    [SerializeField] private GameObject _RestartText;
+
+    [SerializeField] private Image _healthImage;
+    [SerializeField] private Sprite[] _healthSprites;
+
+    private GameManager _gameManager;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _score = 0;
+        _scoreText.text = "Score: " + 0;
+
+        _GameOverText.SetActive(false);
+        _RestartText.SetActive(false);
+
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        if (_gameManager == null)
+        {
+            Debug.LogError("UIManger.gamemanager is NULL");
+        }
+    }
+
+    public void UpdateUIScore(int scoreUpdate)
+    {
+        _score += scoreUpdate;
+        _scoreText.text = "Score: " + _score;
+    }
+
+    public void UpdateUIHealth(int currentHealth)
+    {
+        //assign sprite to image component
+        _healthImage.sprite = _healthSprites[currentHealth];
+        //if currenthealth <= 0
+        if (currentHealth <= 0)
+        {
+            //flicker game over with coroutine
+            StartCoroutine(GameOver());
+        }
+    }
+
+    IEnumerator GameOver()
+    {
+        _gameManager.GameOver();
+        _RestartText.SetActive(true);
+        while (true) //game over text flicker
+        {
+            _GameOverText.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            _GameOverText.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+}

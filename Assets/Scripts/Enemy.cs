@@ -9,11 +9,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _maxPosX = 9.5f;
     [SerializeField] private float _minPosX = -9.5f;
 
+    private Player _player;
+
     // Start is called before the first frame update
     void Start()
     {
         //spawn at bottom out of vision to trigger respawn at top
         transform.position = new Vector3(transform.position.x, _minPosY * 2, 0);
+
+        _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
+
+        if (_player == null)
+        {
+            Debug.LogError("Enemy.player is NULL");
+        }
     }
 
     // Update is called once per frame
@@ -34,16 +43,11 @@ public class Enemy : MonoBehaviour
 
         //if other is player
         if (other.tag == "Player")
-        {
-            //get player script 
-            Player player = other.GetComponent<Player>();
-            //null check player
-            if (player != null)
-            {
-                //dmg player
-                player.Damage();
-            }
-
+        {        
+            //dmg player
+            _player.Damage();
+            //add 10 to score
+            _player.AddScore(5);            
             //destroy us
             Destroy(this.gameObject);
         }
@@ -52,6 +56,8 @@ public class Enemy : MonoBehaviour
         {
             //destroy laser
             Destroy(other.gameObject);
+            //add score
+            _player.AddScore(10);
             //destroy us
             Destroy(this.gameObject);
         }
