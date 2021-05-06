@@ -35,8 +35,15 @@ public class SpawnManager : MonoBehaviour
         //{
         //    Debug.LogError("Spawnmanager.powerup is NULL");
         //}
+
+        //StartSpawning();
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
+        //TO DO enable background scroll scripts
     }
 
     // Update is called once per frame
@@ -47,6 +54,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3f);
+
         //while player is alive
         while (_stopSpawning == false)
         {

@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _minPosX = -9.5f;
 
     private Player _player;
+    private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
@@ -18,10 +19,15 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(transform.position.x, _minPosY * 2, 0);
 
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
+        _animator = GameObject.FindObjectOfType<Enemy>().GetComponent<Animator>();
 
         if (_player == null)
         {
             Debug.LogError("Enemy.player is NULL");
+        }
+        if (_animator == null)
+        {
+            Debug.LogError("Enemy.animator is NULL");
         }
     }
 
@@ -47,9 +53,9 @@ public class Enemy : MonoBehaviour
             //dmg player
             _player.Damage();
             //add 10 to score
-            _player.AddScore(5);            
+            _player.AddScore(5);
             //destroy us
-            Destroy(this.gameObject);
+            StartCoroutine(EnemyDeath());
         }
         //if other is laser
         else if (other.tag == "Laser")
@@ -59,8 +65,19 @@ public class Enemy : MonoBehaviour
             //add score
             _player.AddScore(10);
             //destroy us
-            Destroy(this.gameObject);
+            StartCoroutine(EnemyDeath());
         }
+    }
+
+    IEnumerator EnemyDeath()
+    {
+        //play death anim
+        _animator.SetTrigger("OnEnemyDeath");
+        //destroy collider?
+        Destroy(GetComponent<BoxCollider2D>());
+        //wait for animmation to end
+        yield return new WaitForSeconds(3f);
+        Destroy(this.gameObject);
     }
 
 }

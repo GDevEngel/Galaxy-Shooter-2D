@@ -17,18 +17,26 @@ public class Player : MonoBehaviour
     private Vector3 _laserOffset = new Vector3(0f, 1f, 0f);
     [SerializeField] private GameObject LaserPrefab;
 
+    //power ups
     [SerializeField] private GameObject LaserTriplePrefab;
     [SerializeField] private bool _isTripleLaserActive;
-
-    [SerializeField] private bool _isSpeedupActive;
+    [SerializeField] private bool _animatorSetBool;
     [SerializeField] private float _speedPowerupModifier = 2f;
     [SerializeField] private bool _isShieldActive;
     private GameObject _shield; 
 
     [SerializeField] private int _health = 3;
 
+    //handles
     private SpawnManager _spawnManager;
     private UIManager _uIManager;
+    private Animator _animator;
+    private Animator _animatorThruster;
+
+    private GameObject _leftEngine;
+    private GameObject _rightEngine;
+    [SerializeField] private GameObject ExplosionPrefab;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,17 +45,32 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, -3, 0);
 
         _isTripleLaserActive = false;
-        _isSpeedupActive = false;
+        _animatorSetBool = false;
         _isShieldActive = false;
 
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uIManager = GameObject.FindObjectOfType<Canvas>().GetComponent<UIManager>();
+        _animator = GetComponent<Animator>();
+        _animatorThruster = GameObject.Find("Thruster").GetComponent<Animator>();
         _shield = GameObject.Find("Player/Shield");
         _shield.SetActive(false);
 
+        _leftEngine = GameObject.Find("Left_Engine");
+        _rightEngine = GameObject.Find("Right_Engine");
+        _leftEngine.SetActive(false);
+        _rightEngine.SetActive(false);
 
-        //null check
+
+        //null checks
+        if (_animator == null)
+        {
+            Debug.LogError("Player.animator is NULL");
+        }
+        if (_animatorThruster == null)
+        {
+            Debug.LogError("Player.animatorThruster is NULL");
+        }
         if (_uIManager == null)
         {
             Debug.LogError("Player.uimanager is NULL");
@@ -105,8 +128,18 @@ public class Player : MonoBehaviour
             _uIManager.UpdateUIHealth(_health);
         }
 
-        if (_health <= 0)
+        //hurt animatoins
+        if (_health == 2)
         {
+            _leftEngine.SetActive(true);
+        }
+        else if (_health == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else if (_health <= 0)
+        {
+            Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
         }
@@ -134,6 +167,21 @@ public class Player : MonoBehaviour
         //move player based on user input
         transform.Translate(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, Input.GetAxis("Vertical") * _speed * Time.deltaTime, 0);
 
+        //animation turn left and right
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            _animator.SetBool("TurningLeft", true);
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            _animator.SetBool("TurningRight", true);
+        }
+        else
+        {
+            _animator.SetBool("TurningLeft", false);
+            _animator.SetBool("TurningRight", false);
+        }
+
         //player position restriction on Y axis using Mathf.Clamp
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _minPosY, _maxPosY), 0);
 
@@ -157,7 +205,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(TripleShotCooldown());
                 break;
             case "SpeedUp":
-                _isSpeedupActive = true;
+                _animatorThruster.SetBool("SpeedBoostActive", true);
                 StartCoroutine(SpeedUpCooldown());
                 break;
             case "Shield":
@@ -181,6 +229,6 @@ public class Player : MonoBehaviour
         _speed *= _speedPowerupModifier;
         yield return new WaitForSeconds(5f);
         _speed /= _speedPowerupModifier;
-        _isSpeedupActive = false;
+        _animatorThruster.SetBool("SpeedBoostActive", false);
     }
 }
