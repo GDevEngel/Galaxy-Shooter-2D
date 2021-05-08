@@ -24,7 +24,7 @@ public class Asteroid : MonoBehaviour
         if (_spawnManager == null)
         {
             Debug.LogError("Asteroid.spawnmanager is NULL");
-        }
+        }            
     }
 
     // Update is called once per frame
@@ -45,6 +45,7 @@ public class Asteroid : MonoBehaviour
             //start spawning 
             _spawnManager.StartSpawning();
             //destroy self
+            Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 1f);
         }
     }

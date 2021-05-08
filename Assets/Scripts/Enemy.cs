@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
     private Animator _animator;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _explosionAudioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,7 @@ public class Enemy : MonoBehaviour
 
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
         _animator = GameObject.FindObjectOfType<Enemy>().GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_player == null)
         {
@@ -29,6 +32,16 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Enemy.animator is NULL");
         }
+        if (_audioSource == null)
+        {
+            Debug.LogError("Enemy,audiosource is NULL");
+        }
+        else
+        {
+            _audioSource.clip = _explosionAudioClip;
+        }
+
+
     }
 
     // Update is called once per frame
@@ -75,6 +88,8 @@ public class Enemy : MonoBehaviour
         _animator.SetTrigger("OnEnemyDeath");
         //destroy collider?
         Destroy(GetComponent<BoxCollider2D>());
+        //play explosion SFX
+        _audioSource.Play();
         //wait for animmation to end
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);

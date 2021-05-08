@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     //power ups
     [SerializeField] private GameObject LaserTriplePrefab;
     [SerializeField] private bool _isTripleLaserActive;
-    [SerializeField] private bool _animatorSetBool;
+    //[SerializeField] private bool _animatorSetBool;
     [SerializeField] private float _speedPowerupModifier = 2f;
     [SerializeField] private bool _isShieldActive;
     private GameObject _shield; 
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private GameObject _leftEngine;
     private GameObject _rightEngine;
     [SerializeField] private GameObject ExplosionPrefab;
+    [SerializeField] private AudioClip _laserAudioClip;
+    private AudioSource _audioSource;
 
 
     // Start is called before the first frame update
@@ -45,13 +47,14 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, -3, 0);
 
         _isTripleLaserActive = false;
-        _animatorSetBool = false;
+        //_animatorSetBool = false;
         _isShieldActive = false;
 
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uIManager = GameObject.FindObjectOfType<Canvas>().GetComponent<UIManager>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         _animatorThruster = GameObject.Find("Thruster").GetComponent<Animator>();
         _shield = GameObject.Find("Player/Shield");
         _shield.SetActive(false);
@@ -90,6 +93,15 @@ public class Player : MonoBehaviour
         if (LaserTriplePrefab == null)
         {
             Debug.LogError("Player.LaserTriplePrefab is NULL");
+        }
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("Player.audiosource is NULL");
+        }
+        else
+        {
+            _audioSource.clip = _laserAudioClip;
         }
 
     }
@@ -159,7 +171,9 @@ public class Player : MonoBehaviour
         else {
             //instantite laser + Y offset
             Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
-        }                             
+        }
+        //play audio (after light coz its slower, even if its space)
+        _audioSource.Play();
     }
 
     private void PlayerMovement()
