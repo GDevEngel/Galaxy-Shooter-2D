@@ -13,10 +13,17 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionAudioClip;
+    [SerializeField] private GameObject _enemyShot;
+    [SerializeField] private float _fireInterval = 10f;
+    private Vector3 _offset = new Vector3(0, -0.9f, 0);
+    private bool _isAlive;
 
     // Start is called before the first frame update
     void Start()
     {
+        _isAlive = true;
+
+
         //spawn at bottom out of vision to trigger respawn at top
         transform.position = new Vector3(transform.position.x, _minPosY * 2, 0);
 
@@ -41,7 +48,7 @@ public class Enemy : MonoBehaviour
             _audioSource.clip = _explosionAudioClip;
         }
 
-
+        StartCoroutine(FireRoutine());
     }
 
     // Update is called once per frame
@@ -84,6 +91,8 @@ public class Enemy : MonoBehaviour
 
     IEnumerator EnemyDeath()
     {
+        //to stop fire routine
+        _isAlive = false;
         //play death anim
         _animator.SetTrigger("OnEnemyDeath");
         //destroy collider?
@@ -93,6 +102,15 @@ public class Enemy : MonoBehaviour
         //wait for animmation to end
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);
+    }
+
+    IEnumerator FireRoutine()
+    {
+        while (_isAlive)
+        {
+            yield return new WaitForSeconds(_fireInterval);
+            Instantiate(_enemyShot, transform.position + _offset, Quaternion.identity);
+        }
     }
 
 }

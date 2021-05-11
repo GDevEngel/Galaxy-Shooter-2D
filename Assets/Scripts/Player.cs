@@ -37,14 +37,14 @@ public class Player : MonoBehaviour
     private GameObject _rightEngine;
     [SerializeField] private GameObject ExplosionPrefab;
     [SerializeField] private AudioClip _laserAudioClip;
+    [SerializeField] private AudioClip _playerDamaged;
     private AudioSource _audioSource;
-
 
     // Start is called before the first frame update
     void Start()
     {
         //set starting position
-        transform.position = new Vector3(0, -3, 0);
+        transform.position = new Vector3(0, _minPosY, 0);
 
         _isTripleLaserActive = false;
         //_animatorSetBool = false;
@@ -126,6 +126,8 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        AudioSource.PlayClipAtPoint(_playerDamaged, Camera.main.transform.position);
+
         if (_isShieldActive == true)
         {
             //deactivate shield gameobject

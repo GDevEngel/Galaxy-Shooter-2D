@@ -2113,6 +2113,7 @@ MonoBehaviour:
   ExplosionPrefab: {fileID: 5179426158052892275, guid: ce2840f895a483e4882597133bf3a656,
     type: 3}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _playerDamaged: {fileID: 8300000, guid: b3f3f0ee74e1fdc4799d3c6fbcf0cf63, type: 3}
 --- !u!212 &1230993324
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2171,7 +2172,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230993322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 5382257509412441470}
@@ -2652,7 +2653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474f1b6a16b7e0b47bb757798ae3ea48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 1
+  _spawnInterval: 3
   enemyPrefab: {fileID: 2715077876768039526, guid: 425ebab162850164a94cf1b0bedba5b0,
     type: 3}
   enemyContainer: {fileID: 23641200}
@@ -3539,6 +3540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Asteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176140564678426844, guid: afcc81fbd3f72f44c81fadfb2a26797e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8745949839404817473, guid: afcc81fbd3f72f44c81fadfb2a26797e,
         type: 3}
