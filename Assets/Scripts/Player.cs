@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     //handles
     private SpawnManager _spawnManager;
     private UIManager _uIManager;
+    private ShakeBehaviour _camera;
     private Animator _animator;
     private Animator _animatorThruster;
 
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour
         //find gameobject then get component
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uIManager = GameObject.FindObjectOfType<Canvas>().GetComponent<UIManager>();
+        _camera = GameObject.FindObjectOfType<Camera>().GetComponent<ShakeBehaviour>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
         _animatorThruster = GameObject.Find("Thruster").GetComponent<Animator>();
@@ -73,6 +75,10 @@ public class Player : MonoBehaviour
         if (_animatorThruster == null)
         {
             Debug.LogError("Player.animatorThruster is NULL");
+        }
+        if (_camera == null)
+        {
+            Debug.LogError("Player.camera is NULL");
         }
         if (_uIManager == null)
         {
@@ -127,6 +133,9 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         AudioSource.PlayClipAtPoint(_playerDamaged, Camera.main.transform.position);
+
+        //use shakebehaviour script method
+        _camera.CameraShake();
 
         if (_isShieldActive == true)
         {
