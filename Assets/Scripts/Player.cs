@@ -147,25 +147,52 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _health--;
-            _uIManager.UpdateUIHealth(_health);
+            _health--;            
         }
+        PlayerHealthVisual();
+    }
 
+    private void Repair()
+    {
+        if (_health < 3)
+        {
+            _health++;
+            PlayerHealthVisual();
+        }
+    }
+    private void PlayerHealthVisual()
+    {
         //hurt animatoins
-        if (_health == 2)
-        {
-            _leftEngine.SetActive(true);
+        switch (_health)
+        { 
+            case 3:
+                _leftEngine.SetActive(false);
+                _rightEngine.SetActive(false);
+                break;
+            case 2:
+                _leftEngine.SetActive(true);
+                _rightEngine.SetActive(false);
+                break;
+            case 1:
+                _rightEngine.SetActive(true);
+                break;
+            case 0:
+                Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+                _spawnManager.OnPlayerDeath();
+                Destroy(gameObject);
+                break;
+                //same as case 0: just in case a player is damaged twice in a frame
+            case -1: 
+                Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+                _spawnManager.OnPlayerDeath();
+                Destroy(gameObject);
+                break;
+            default:
+                Debug.Log("Default value in switch statement in Player script for health");
+                break;
         }
-        else if (_health == 1)
-        {
-            _rightEngine.SetActive(true);
-        }
-        else if (_health <= 0)
-        {
-            Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-            _spawnManager.OnPlayerDeath();
-            Destroy(gameObject);
-        }
+        //UI player health update
+        _uIManager.UpdateUIHealth(_health);
     }
 
     private void FireLaser()
@@ -237,6 +264,9 @@ public class Player : MonoBehaviour
                 _isShieldActive = true;
                 //activate shield game object
                 _shield.SetActive(true);
+                break;
+            case "Repair":
+                Repair();
                 break;
             default:
                 Debug.Log("Default value in switch statement in Player script for PowerUpType");

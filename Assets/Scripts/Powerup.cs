@@ -57,6 +57,9 @@ public class Powerup : MonoBehaviour
                         player.PowerUpPickUp("Shield");
                         //Debug.Log("SHIELD POWER UP");
                         break;
+                    case 3:
+                        player.PowerUpPickUp("Repair");
+                        break;
                     default:
                         Debug.Log("Default value in switch stement of powerupID");
                             break;

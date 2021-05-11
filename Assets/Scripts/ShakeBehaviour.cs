@@ -21,7 +21,6 @@ public class ShakeBehaviour : MonoBehaviour
         if (_shakeDuration > 0)
         {
             transform.position = _initialPos + Random.insideUnitSphere * _shakeMagnitude;
-
             _shakeDuration -= Time.deltaTime * _dampingSpeed;
         }
         else
