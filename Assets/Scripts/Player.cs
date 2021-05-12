@@ -10,6 +10,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float _minPosX = -11.4f;
     [SerializeField] private float _maxPosY = 4f;
     [SerializeField] private float _minPosY = -4.2f;
+    [SerializeField] private float _sprintModifier = 1.5f;
+
+    //speed vfx config
+    private Vector3 _scaleChange = new Vector3(0.2f, 0.4f, 0);
+    private Vector3 _posChange = new Vector3(0, -0.25f, 0);
+    private Vector3 _scaleChangeSpeedPowerUp = new Vector3(0.6f, 0.6f, 0);
+    private Vector3 _posChangeSpeedPowerUp = new Vector3(0, -0.625f, 0);
+
 
     //laser var
     [SerializeField] private float _fireRate = 0.25f;
@@ -20,7 +28,6 @@ public class Player : MonoBehaviour
     //power ups
     [SerializeField] private GameObject LaserTriplePrefab;
     [SerializeField] private bool _isTripleLaserActive;
-    //[SerializeField] private bool _animatorSetBool;
     [SerializeField] private float _speedPowerupModifier = 2f;
     [SerializeField] private bool _isShieldActive;
     private GameObject _shield; 
@@ -32,7 +39,7 @@ public class Player : MonoBehaviour
     private UIManager _uIManager;
     private ShakeBehaviour _camera;
     private Animator _animator;
-    private Animator _animatorThruster;
+    private GameObject _thruster;
 
     private GameObject _leftEngine;
     private GameObject _rightEngine;
@@ -48,7 +55,6 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, _minPosY, 0);
 
         _isTripleLaserActive = false;
-        //_animatorSetBool = false;
         _isShieldActive = false;
 
         //find gameobject then get component
@@ -57,7 +63,7 @@ public class Player : MonoBehaviour
         _camera = GameObject.FindObjectOfType<Camera>().GetComponent<ShakeBehaviour>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
-        _animatorThruster = GameObject.Find("Thruster").GetComponent<Animator>();
+        _thruster = GameObject.Find("Player/Thruster");
         _shield = GameObject.Find("Player/Shield");
         _shield.SetActive(false);
 
@@ -72,9 +78,9 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player.animator is NULL");
         }
-        if (_animatorThruster == null)
+        if (_thruster == null)
         {
-            Debug.LogError("Player.animatorThruster is NULL");
+            Debug.LogError("Player.thruster is NULL");
         }
         if (_camera == null)
         {
@@ -216,6 +222,20 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
+        //Sprint
+        if (Input.GetButtonDown("Fire3"))
+        {
+            _speed *= _sprintModifier;
+            _thruster.transform.localScale += _scaleChange;
+            _thruster.transform.position += _posChange;
+        }
+        else if (Input.GetButtonUp("Fire3"))
+        {
+            _speed /= _sprintModifier;
+            _thruster.transform.localScale -= _scaleChange;
+            _thruster.transform.position -= _posChange;
+        }
+
         //move player based on user input
         transform.Translate(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, Input.GetAxis("Vertical") * _speed * Time.deltaTime, 0);
 
@@ -252,12 +272,10 @@ public class Player : MonoBehaviour
     {
         switch (PowerUpType)
         {
-            case "TripleShot":
-                _isTripleLaserActive = true;
+            case "TripleShot":                
                 StartCoroutine(TripleShotCooldown());
                 break;
             case "SpeedUp":
-                _animatorThruster.SetBool("SpeedBoostActive", true);
                 StartCoroutine(SpeedUpCooldown());
                 break;
             case "Shield":
@@ -276,14 +294,21 @@ public class Player : MonoBehaviour
 
     IEnumerator TripleShotCooldown()
     {
+        _isTripleLaserActive = true;
         yield return new WaitForSeconds(5f);
         _isTripleLaserActive = false;
     }
     IEnumerator SpeedUpCooldown()
     {
+        _thruster.transform.localScale += _scaleChangeSpeedPowerUp;
+        _thruster.transform.position += _posChangeSpeedPowerUp;
+                
         _speed *= _speedPowerupModifier;
         yield return new WaitForSeconds(5f);
         _speed /= _speedPowerupModifier;
-        _animatorThruster.SetBool("SpeedBoostActive", false);
+
+        _thruster.transform.localScale -= _scaleChangeSpeedPowerUp;
+        _thruster.transform.position -= _posChangeSpeedPowerUp;
+        
     }
 }
