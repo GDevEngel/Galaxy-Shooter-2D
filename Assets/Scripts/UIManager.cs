@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _healthImage;
     [SerializeField] private Sprite[] _healthSprites;
 
+    [SerializeField] private Image _shieldImage;
+    [SerializeField] private Sprite[] _shieldSprites;
+
 
     private Slider _slider;
 
@@ -59,9 +62,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateUIShield (int currentShield)
+    {
+        _shieldImage.sprite = _shieldSprites[currentShield];
+    }
+
     public void UpdateUIEnergy(float CurrentEnergy)
     {
-        //TODO = CurrentEnergy;
         _slider.value = CurrentEnergy;
     }
 

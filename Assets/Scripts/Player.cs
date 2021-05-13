@@ -36,7 +36,9 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isTripleLaserActive;
     [SerializeField] private float _speedPowerupModifier = 2f;
     [SerializeField] private bool _isShieldActive;
-    private GameObject _shield; 
+    private GameObject _shield;
+    private int _shieldHealth = 0;
+    private SpriteRenderer _shieldSprite;
 
     [SerializeField] private int _health = 3;
 
@@ -71,6 +73,7 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _thruster = GameObject.Find("Player/Thruster");
         _shield = GameObject.Find("Player/Shield");
+        _shieldSprite = _shield.GetComponent<SpriteRenderer>();
         _shield.SetActive(false);
 
         _leftEngine = GameObject.Find("Left_Engine");
@@ -78,50 +81,19 @@ public class Player : MonoBehaviour
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
 
-
         //null checks
-        if (_animator == null)
-        {
-            Debug.LogError("Player.animator is NULL");
-        }
-        if (_thruster == null)
-        {
-            Debug.LogError("Player.thruster is NULL");
-        }
-        if (_camera == null)
-        {
-            Debug.LogError("Player.camera is NULL");
-        }
-        if (_uIManager == null)
-        {
-            Debug.LogError("Player.uimanager is NULL");
-        }
-        if (_spawnManager == null)
-        {
-            Debug.LogError("Player.spawn manager is NULL");
-        }
-        if (_shield == null)
-        {
-            Debug.LogError("Player.shield is NULL");
-        }
-        if (LaserPrefab == null)
-        {
-            Debug.LogError("Player.Laserprefab is NULL");
-        }
-        if (LaserTriplePrefab == null)
-        {
-            Debug.LogError("Player.LaserTriplePrefab is NULL");
-        }
+        if (_animator == null) { Debug.LogError("Player.animator is NULL"); }
+        if (_thruster == null) { Debug.LogError("Player.thruster is NULL"); }
+        if (_camera == null) { Debug.LogError("Player.camera is NULL"); }
+        if (_uIManager == null) { Debug.LogError("Player.uimanager is NULL"); }
+        if (_spawnManager == null) { Debug.LogError("Player.spawn manager is NULL"); }
+        if (_shield == null) { Debug.LogError("Player.shield is NULL"); }
+        if (_shieldSprite == null) { Debug.LogError("Player.shieldSprite is NULL"); }
+        if (LaserPrefab == null) { Debug.LogError("Player.Laserprefab is NULL"); }
+        if (LaserTriplePrefab == null) { Debug.LogError("Player.LaserTriplePrefab is NULL"); }
 
-        if (_audioSource == null)
-        {
-            Debug.LogError("Player.audiosource is NULL");
-        }
-        else
-        {
-            _audioSource.clip = _laserAudioClip;
-        }
-
+        if (_audioSource == null) { Debug.LogError("Player.audiosource is NULL"); }
+        else { _audioSource.clip = _laserAudioClip; }
     }
 
     // Update is called once per frame
@@ -129,6 +101,18 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
 
+        EnergySystem();
+
+        //When fire is pressed AND current game time is greater then previous laser fire time + fire rate(cooldown)
+        if (Input.GetButton("Fire1") && Time.time > _nextFire)
+        {
+            FireLaser();
+        }
+
+    }
+
+    private void EnergySystem()
+    {
         //Sprint with Energy System
         if (_energyCurrent < 0 || Input.GetButtonUp("Fire3"))
         {
@@ -158,7 +142,7 @@ public class Player : MonoBehaviour
         if (_isSprint == true)
         {
             //drain energy
-            _energyCurrent -= _sprintStaminaCost * Time.deltaTime;            
+            _energyCurrent -= _sprintStaminaCost * Time.deltaTime;
         }
         else if (_isSprint == false)
         {
@@ -169,17 +153,10 @@ public class Player : MonoBehaviour
             else
             {
                 //recharge energy
-                _energyCurrent += _energyCharge * Time.deltaTime;                
+                _energyCurrent += _energyCharge * Time.deltaTime;
             }
         }
         _uIManager.UpdateUIEnergy(_energyCurrent);
-
-        //When fire is pressed AND current game time is greater then previous laser fire time + fire rate(cooldown)
-        if (Input.GetButton("Fire1") && Time.time > _nextFire)
-        {
-            FireLaser();
-        }
-
     }
 
     public void AddScore(int scoreValue)
@@ -196,12 +173,30 @@ public class Player : MonoBehaviour
 
         if (_isShieldActive == true)
         {
-            //deactivate shield gameobject
-            _shield.SetActive(false);
-            _isShieldActive = false;
-            //exit function with return
-            return;
-        }
+            _shieldHealth--;            
+            //UpdateShieldVisual
+            switch (_shieldHealth)
+            {
+                case 3:
+                    _shieldSprite.color = Color.cyan;
+                    break;
+                case 2:
+                    _shieldSprite.color = Color.green;
+                    break;
+                case 1:
+                    _shieldSprite.color = Color.red;
+                    break;
+                case 0:
+                    //deactivate shield gameobject
+                    _shield.SetActive(false);
+                    _isShieldActive = false;
+                    break;
+                default:
+                    Debug.Log("Player.Shieldvisual switch default value");
+                    break;
+            }
+            _uIManager.UpdateUIShield(_shieldHealth);
+        }        
         else
         {
             _health--;            
@@ -319,6 +314,9 @@ public class Player : MonoBehaviour
                 _isShieldActive = true;
                 //activate shield game object
                 _shield.SetActive(true);
+                _shieldHealth = 3;
+                _shieldSprite.color = Color.cyan;
+                _uIManager.UpdateUIShield(_shieldHealth);
                 break;
             case "Repair":
                 Repair();
