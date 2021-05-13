@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     private float _nextFire = 0f;
     private Vector3 _laserOffset = new Vector3(0f, 1f, 0f);
     [SerializeField] private GameObject LaserPrefab;
+    private int _maxAmmo = 15;
+    private int _currAmmo;
 
     //power ups
     [SerializeField] private GameObject LaserTriplePrefab;
@@ -52,8 +54,11 @@ public class Player : MonoBehaviour
     private GameObject _leftEngine;
     private GameObject _rightEngine;
     [SerializeField] private GameObject ExplosionPrefab;
+
+    //Audio handles
     [SerializeField] private AudioClip _laserAudioClip;
     [SerializeField] private AudioClip _playerDamaged;
+    [SerializeField] private AudioClip _outOfAmmo;
     private AudioSource _audioSource;
 
     // Start is called before the first frame update
@@ -61,6 +66,8 @@ public class Player : MonoBehaviour
     {
         //set starting position
         transform.position = new Vector3(0, _minPosY, 0);
+
+        _currAmmo = _maxAmmo;
 
         _isTripleLaserActive = false;
         _isShieldActive = false;
@@ -249,21 +256,34 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        _nextFire = Time.time + _fireRate;
-
-        //if is triple laser active
-        if (_isTripleLaserActive == true)
+        if (_currAmmo > 0)
         {
-            //instantiate 3 lasers
-            Instantiate(LaserTriplePrefab, transform.position + _laserOffset, Quaternion.identity);
+            _nextFire = Time.time + _fireRate;
+
+            _currAmmo--;
+
+            //if is triple laser active
+            if (_isTripleLaserActive == true)
+            {
+                //instantiate 3 lasers
+                Instantiate(LaserTriplePrefab, transform.position + _laserOffset, Quaternion.identity);
+            }
+            //else fire 1 laser
+            else
+            {
+                //instantite laser + Y offset
+                Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
+            }
+            //play audio (after light coz its slower, even if its space)
+            _audioSource.Play();
+            
+            _uIManager.UpdateUIAmmo(_currAmmo);
         }
-        //else fire 1 laser
-        else {
-            //instantite laser + Y offset
-            Instantiate(LaserPrefab, transform.position + _laserOffset, Quaternion.identity);
+        else
+        {
+            //Out of Ammo Sfx
+            AudioSource.PlayClipAtPoint(_outOfAmmo, Camera.main.transform.position);
         }
-        //play audio (after light coz its slower, even if its space)
-        _audioSource.Play();
     }
 
     private void PlayerMovement()
@@ -320,6 +340,10 @@ public class Player : MonoBehaviour
                 break;
             case "Repair":
                 Repair();
+                break;
+            case "Ammo":
+                _currAmmo = _maxAmmo;
+                _uIManager.UpdateUIAmmo(_currAmmo);
                 break;
             default:
                 Debug.Log("Default value in switch statement in Player script for PowerUpType");

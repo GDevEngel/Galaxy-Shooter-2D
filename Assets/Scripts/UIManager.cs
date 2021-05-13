@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _shieldImage;
     [SerializeField] private Sprite[] _shieldSprites;
 
+    [SerializeField] private Text _ammoText;
+
 
     private Slider _slider;
 
@@ -30,6 +32,7 @@ public class UIManager : MonoBehaviour
         _GameOverText.SetActive(false);
         _RestartText.SetActive(false);
 
+        _ammoText.text = "15";
 
         _slider = FindObjectOfType<Slider>();
         if (_slider == null)
@@ -60,6 +63,11 @@ public class UIManager : MonoBehaviour
             //flicker game over with coroutine
             StartCoroutine(GameOver());
         }
+    }
+
+    public void UpdateUIAmmo(int currentAmmo)
+    {
+        _ammoText.text = currentAmmo.ToString();
     }
 
     public void UpdateUIShield (int currentShield)

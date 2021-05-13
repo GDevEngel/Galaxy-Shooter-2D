@@ -60,6 +60,9 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.PowerUpPickUp("Repair");
                         break;
+                    case 4:
+                        player.PowerUpPickUp("Ammo");
+                        break;
                     default:
                         Debug.Log("Default value in switch stement of powerupID");
                             break;
