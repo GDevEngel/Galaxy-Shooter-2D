@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _healthImage;
     [SerializeField] private Sprite[] _healthSprites;
 
+
+    private Slider _slider;
+
     private GameManager _gameManager;
 
     // Start is called before the first frame update
@@ -23,6 +26,13 @@ public class UIManager : MonoBehaviour
 
         _GameOverText.SetActive(false);
         _RestartText.SetActive(false);
+
+
+        _slider = FindObjectOfType<Slider>();
+        if (_slider == null)
+        {
+            Debug.LogError("UIManager.slider is NULL");
+        }
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         if (_gameManager == null)
@@ -47,6 +57,12 @@ public class UIManager : MonoBehaviour
             //flicker game over with coroutine
             StartCoroutine(GameOver());
         }
+    }
+
+    public void UpdateUIEnergy(float CurrentEnergy)
+    {
+        //TODO = CurrentEnergy;
+        _slider.value = CurrentEnergy;
     }
 
     IEnumerator GameOver()

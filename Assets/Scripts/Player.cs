@@ -18,6 +18,12 @@ public class Player : MonoBehaviour
     private Vector3 _scaleChangeSpeedPowerUp = new Vector3(0.6f, 0.6f, 0);
     private Vector3 _posChangeSpeedPowerUp = new Vector3(0, -0.625f, 0);
 
+    // Energy system
+    [SerializeField] private float _energyMax = 10f;
+    [SerializeField] private float _energyCurrent = 10f;
+    [SerializeField] private float _energyCharge = 1f;
+    [SerializeField] private float _sprintStaminaCost = 3f;
+    private bool _isSprint = false;
 
     //laser var
     [SerializeField] private float _fireRate = 0.25f;
@@ -123,6 +129,51 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
 
+        //Sprint with Energy System
+        if (_energyCurrent < 0 || Input.GetButtonUp("Fire3"))
+        {
+            if (_energyCurrent < 0)
+            {
+                _energyCurrent = 0;
+            }
+            if (_isSprint == true)
+            {
+                _isSprint = false;
+
+                _speed /= _sprintModifier;
+                //vfx
+                _thruster.transform.localScale -= _scaleChange;
+                _thruster.transform.position -= _posChange;
+            }
+        }
+        else if (_energyCurrent > 3 && Input.GetButtonDown("Fire3"))
+        {
+            _isSprint = true;
+
+            _speed *= _sprintModifier;
+            //vfx
+            _thruster.transform.localScale += _scaleChange;
+            _thruster.transform.position += _posChange;
+        }
+        if (_isSprint == true)
+        {
+            //drain energy
+            _energyCurrent -= _sprintStaminaCost * Time.deltaTime;            
+        }
+        else if (_isSprint == false)
+        {
+            if (_energyCurrent >= _energyMax)
+            {
+                _energyCurrent = _energyMax;
+            }
+            else
+            {
+                //recharge energy
+                _energyCurrent += _energyCharge * Time.deltaTime;                
+            }
+        }
+        _uIManager.UpdateUIEnergy(_energyCurrent);
+
         //When fire is pressed AND current game time is greater then previous laser fire time + fire rate(cooldown)
         if (Input.GetButton("Fire1") && Time.time > _nextFire)
         {
@@ -222,20 +273,6 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-        //Sprint
-        if (Input.GetButtonDown("Fire3"))
-        {
-            _speed *= _sprintModifier;
-            _thruster.transform.localScale += _scaleChange;
-            _thruster.transform.position += _posChange;
-        }
-        else if (Input.GetButtonUp("Fire3"))
-        {
-            _speed /= _sprintModifier;
-            _thruster.transform.localScale -= _scaleChange;
-            _thruster.transform.position -= _posChange;
-        }
-
         //move player based on user input
         transform.Translate(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, Input.GetAxis("Vertical") * _speed * Time.deltaTime, 0);
 
