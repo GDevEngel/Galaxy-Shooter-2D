@@ -16,7 +16,11 @@ public class Powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //mass homing missle powerup self destruct to reduce spawn rate
+        if (powerupID == 5 && Random.value > 0.5f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +66,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case 4:
                         player.PowerUpPickUp("Ammo");
+                        break;
+                    case 5:
+                        player.PowerUpPickUp("MassHomingMissile");
                         break;
                     default:
                         Debug.Log("Default value in switch stement of powerupID");

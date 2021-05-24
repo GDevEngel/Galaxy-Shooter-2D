@@ -109,7 +109,10 @@ public class Enemy : MonoBehaviour
         while (_isAlive)
         {
             yield return new WaitForSeconds(_fireInterval);
-            Instantiate(_enemyShot, transform.position + _offset, Quaternion.identity);
+            if (_isAlive) // double check to prevent bug that executes while loop while enemy is already dead
+            {
+                Instantiate(_enemyShot, transform.position + _offset, Quaternion.identity);
+            }
         }
     }
 

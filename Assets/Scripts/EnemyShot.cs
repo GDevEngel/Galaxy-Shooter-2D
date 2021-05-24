@@ -20,6 +20,7 @@ public class EnemyShot : MonoBehaviour
         }
         else
         {
+            Destroy(this.gameObject);
             Debug.LogError("EnemyShot.player is NULL");
         }
         //calculate direction to move (normalized scales values of vector to be max 1)
@@ -32,6 +33,12 @@ public class EnemyShot : MonoBehaviour
     void Update()
     {
         transform.Translate(_direction * Time.deltaTime);
+
+        //self destruct if there is no target anymore
+        if (_player == null)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

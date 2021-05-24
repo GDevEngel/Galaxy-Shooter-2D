@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     private int _maxAmmo = 15;
     private int _currAmmo;
 
+    [SerializeField] private GameObject HMissilePrefab;
+
     //power ups
     [SerializeField] private GameObject LaserTriplePrefab;
     [SerializeField] private bool _isTripleLaserActive;
@@ -115,7 +117,6 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
-
     }
 
     private void EnergySystem()
@@ -344,6 +345,16 @@ public class Player : MonoBehaviour
             case "Ammo":
                 _currAmmo = _maxAmmo;
                 _uIManager.UpdateUIAmmo(_currAmmo);
+                break;
+            case "MassHomingMissile":
+                GameObject[] Targets = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (GameObject Target in Targets)
+                {
+                    GameObject HMissileObject = Instantiate(HMissilePrefab, transform.position, Quaternion.identity);
+                    HomingMissile HMissileScript = HMissileObject.GetComponent<HomingMissile>();
+                    HMissileScript.AssignTarget(Target);
+                }
+
                 break;
             default:
                 Debug.Log("Default value in switch statement in Player script for PowerUpType");
