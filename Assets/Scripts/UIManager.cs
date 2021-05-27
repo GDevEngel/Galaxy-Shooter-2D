@@ -32,8 +32,6 @@ public class UIManager : MonoBehaviour
         _GameOverText.SetActive(false);
         _RestartText.SetActive(false);
 
-        _ammoText.text = "15";
-
         _slider = FindObjectOfType<Slider>();
         if (_slider == null)
         {
@@ -65,9 +63,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateUIAmmo(int currentAmmo)
+    public void UpdateUIAmmo(int currentAmmo, int maxAmmo)
     {
-        _ammoText.text = currentAmmo.ToString();
+        _ammoText.text = currentAmmo +"/"+ maxAmmo;
     }
 
     public void UpdateUIShield (int currentShield)

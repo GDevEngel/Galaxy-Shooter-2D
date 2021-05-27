@@ -2160,8 +2160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -150, y: 0}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1227910221
 MonoBehaviour:
@@ -2195,7 +2195,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 99
+  m_Text: 99/99
 --- !u!222 &1227910222
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3067,7 +3067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474f1b6a16b7e0b47bb757798ae3ea48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 0.5
+  _spawnInterval: 3
   enemyPrefab: {fileID: 2715077876768039526, guid: 425ebab162850164a94cf1b0bedba5b0,
     type: 3}
   enemyContainer: {fileID: 23641200}
@@ -4131,75 +4131,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1001 &7321778905659068629
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910085, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962055611199910088, guid: a83a904317b55b740b9df3e87989a4de,
-        type: 3}
-      propertyPath: m_Name
-      value: Powerup_MassHomingMissile
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a83a904317b55b740b9df3e87989a4de, type: 3}
 --- !u!1001 &7629235562327157560
 PrefabInstance:
   m_ObjectHideFlags: 0

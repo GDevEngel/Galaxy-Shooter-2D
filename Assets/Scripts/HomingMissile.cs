@@ -17,6 +17,7 @@ public class HomingMissile : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Destroy(this.gameObject, 10f);
     }  
     
     public void AssignTarget(GameObject PowerUpTarget)

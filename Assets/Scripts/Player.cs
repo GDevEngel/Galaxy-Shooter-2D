@@ -90,6 +90,9 @@ public class Player : MonoBehaviour
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
 
+        //UI
+        _uIManager.UpdateUIAmmo(_currAmmo, _maxAmmo);
+
         //null checks
         if (_animator == null) { Debug.LogError("Player.animator is NULL"); }
         if (_thruster == null) { Debug.LogError("Player.thruster is NULL"); }
@@ -278,7 +281,7 @@ public class Player : MonoBehaviour
             //play audio (after light coz its slower, even if its space)
             _audioSource.Play();
             
-            _uIManager.UpdateUIAmmo(_currAmmo);
+            _uIManager.UpdateUIAmmo(_currAmmo, _maxAmmo);
         }
         else
         {
@@ -344,7 +347,7 @@ public class Player : MonoBehaviour
                 break;
             case "Ammo":
                 _currAmmo = _maxAmmo;
-                _uIManager.UpdateUIAmmo(_currAmmo);
+                _uIManager.UpdateUIAmmo(_currAmmo, _maxAmmo);
                 break;
             case "MassHomingMissile":
                 GameObject[] Targets = GameObject.FindGameObjectsWithTag("Enemy");
