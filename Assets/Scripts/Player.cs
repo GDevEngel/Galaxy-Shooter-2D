@@ -120,6 +120,16 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            GameObject[] PowerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+            //enable magnets on powerups
+            foreach (GameObject PowerUp in PowerUps)
+            {
+                PowerUp.GetComponent<Powerup>().EnableMagnet();
+            }
+        }
     }
 
     private void EnergySystem()

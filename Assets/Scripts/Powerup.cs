@@ -9,6 +9,12 @@ public class Powerup : MonoBehaviour
 
     [SerializeField] private AudioClip _powerupSFX;
 
+    private bool _isMagnetActive = false;
+    private GameObject _player;
+    private float _magnetSpeed = 4f;
+    private Vector3 _direction;
+    private Rigidbody2D rb;
+
     //Powerup IDs
     //0 = triple shot, 1 = speed, 2 = shield
     [SerializeField] private int powerupID;
@@ -16,6 +22,14 @@ public class Powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.Find("Player");
+        if (_player == null)
+        {
+            Debug.Log("Powerup.player is NULL");
+        }
+
+        rb = GetComponent<Rigidbody2D>();
+
         //mass homing missle powerup self destruct to reduce spawn rate
         if (powerupID == 5 && Random.value > 0.5f)
         {
@@ -26,8 +40,16 @@ public class Powerup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //move down
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (_isMagnetActive)
+        {
+            _direction = (_player.transform.position - this.transform.position).normalized * _magnetSpeed;                       
+            rb.velocity = _direction;
+        }
+        else 
+        {
+            //move down
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
         // when passed bottom of screen
         if (transform.position.y < _minPosY)
         {
@@ -77,5 +99,10 @@ public class Powerup : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+    }
+
+    public void EnableMagnet()
+    {
+        _isMagnetActive = true;
     }
 }
