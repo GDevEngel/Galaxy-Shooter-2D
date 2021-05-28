@@ -35,11 +35,8 @@ public class SpawnManager : MonoBehaviour
         //{
         //    Debug.LogError("Spawnmanager.powerup is NULL");
         //}
-
-        if (GameObject.FindObjectOfType<Asteroid>() == null)
-        {
-            StartSpawning();
-        }
+                
+        StartSpawning();
     }
 
     public void StartSpawning()

@@ -357,7 +357,9 @@ public class Player : MonoBehaviour
                     HomingMissile HMissileScript = HMissileObject.GetComponent<HomingMissile>();
                     HMissileScript.AssignTarget(Target);
                 }
-
+                break;
+            case "Asteroid":
+                StartCoroutine(SpeedDownCooldown());
                 break;
             default:
                 Debug.Log("Default value in switch statement in Player script for PowerUpType");
@@ -383,5 +385,15 @@ public class Player : MonoBehaviour
         _thruster.transform.localScale -= _scaleChangeSpeedPowerUp;
         _thruster.transform.position -= _posChangeSpeedPowerUp;
         
+    }
+
+    IEnumerator SpeedDownCooldown()
+    {
+        _thruster.SetActive(false);
+        _speed /= 5f;
+        yield return new WaitForSeconds(3f);
+
+        _thruster.SetActive(true);
+        _speed *= 5f;
     }
 }
