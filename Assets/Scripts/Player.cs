@@ -199,10 +199,10 @@ public class Player : MonoBehaviour
             switch (_shieldHealth)
             {
                 case 3:
-                    _shieldSprite.color = Color.cyan;
+                    _shieldSprite.color = Color.white;
                     break;
                 case 2:
-                    _shieldSprite.color = Color.green;
+                    _shieldSprite.color = new Color(255f,0f,255f,1f); //purple
                     break;
                 case 1:
                     _shieldSprite.color = Color.red;

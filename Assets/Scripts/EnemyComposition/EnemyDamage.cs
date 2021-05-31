@@ -13,7 +13,7 @@ public class EnemyDamage : MonoBehaviour
     private void Start()
     {
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
-        _animator = GameObject.FindObjectOfType<EnemyDamage>().GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
 
         if (_player == null)
