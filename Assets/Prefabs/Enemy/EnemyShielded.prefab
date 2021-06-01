@@ -116,8 +116,8 @@ GameObject:
   - component: {fileID: 9014255925557823041}
   - component: {fileID: 9014255925557823040}
   - component: {fileID: 9014255925557823067}
-  - component: {fileID: 9014255925557823043}
   - component: {fileID: 9014255925557823065}
+  - component: {fileID: 4210166561310388636}
   m_Layer: 0
   m_Name: EnemyShielded
   m_TagString: Enemy
@@ -441,21 +441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
---- !u!114 &9014255925557823043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9014255925557823064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8341683ef00eaa4eb624a5db4a5cf82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fireRate: 0.4
-  _enemyShot: {fileID: 2160897167786524090, guid: c3f8da5385690a94c99c67ac6ac9238e,
-    type: 3}
 --- !u!114 &9014255925557823065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,3 +455,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionAudioClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _shield: {fileID: 2282079627423896150}
+--- !u!114 &4210166561310388636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9014255925557823064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb16615e48f50549842b342a2087e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireRate: 1.5
+  _enemyLaser: {fileID: 1957491172842679763, guid: 7046ff1b7d7b65b4abedc5f2db7ea418,
+    type: 3}

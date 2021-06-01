@@ -46,7 +46,7 @@ public class EnemyShield : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         //Debug.Log(other);
-        if (_isShieldActive == true)
+        if (_isShieldActive == true && (other.tag == "Player" || other.tag == "Laser"))
         {
             _shield.SetActive(false);
             _isShieldActive = false;

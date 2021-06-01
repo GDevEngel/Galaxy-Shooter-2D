@@ -99,6 +99,11 @@ public class Powerup : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+        else if (other.tag == "EnemyProjectile")
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 
     public void EnableMagnet()
