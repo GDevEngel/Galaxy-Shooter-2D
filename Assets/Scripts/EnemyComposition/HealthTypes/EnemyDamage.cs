@@ -68,6 +68,14 @@ public class EnemyDamage : MonoBehaviour
         _animator.SetTrigger("OnEnemyDeath");
         //destroy collider?
         Destroy(GetComponent<PolygonCollider2D>());
+
+        //Destroy childeren (thrusters)
+        Debug.Log(transform.childCount);
+        while (transform.childCount > 0)
+        {
+            Destroy(transform.GetChild(0).gameObject);            
+        }
+
         //play explosion SFX
         _audioSource.Play();
         //wait for animmation to end

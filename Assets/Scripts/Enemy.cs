@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
             //add 10 to score
             _player.AddScore(5);
             //destroy us
-            StartCoroutine(EnemyDeath());
+            EnemyDeath();
         }
         //if other is laser
         else if (other.tag == "Laser")
@@ -85,10 +85,34 @@ public class Enemy : MonoBehaviour
             //add score
             _player.AddScore(10);
             //destroy us
-            StartCoroutine(EnemyDeath());
+            EnemyDeath();
         }
     }
 
+
+    private void EnemyDeath()
+    {   
+        //to stop fire routine
+        _isAlive = false;
+        //play death anim
+        _animator.SetTrigger("OnEnemyDeath");
+        //destroy collider?
+        Destroy(GetComponent<BoxCollider2D>());
+
+        //Destroy childeren (thrusters)
+        Debug.Log(transform.childCount);
+        foreach (Transform child in this.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+
+        //play explosion SFX
+        _audioSource.Play();
+        //wait for animmation to end
+        Destroy(this.gameObject, 3f);
+    }
+    /*
     IEnumerator EnemyDeath()
     {
         //to stop fire routine
@@ -97,12 +121,21 @@ public class Enemy : MonoBehaviour
         _animator.SetTrigger("OnEnemyDeath");
         //destroy collider?
         Destroy(GetComponent<BoxCollider2D>());
+
+        //Destroy childeren (thrusters)
+        Debug.Log(transform.childCount);
+        while (transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
         //play explosion SFX
         _audioSource.Play();
         //wait for animmation to end
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);
     }
+    */
 
     IEnumerator FireRoutine()
     {
