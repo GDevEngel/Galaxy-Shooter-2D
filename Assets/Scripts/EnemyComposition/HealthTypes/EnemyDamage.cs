@@ -71,9 +71,9 @@ public class EnemyDamage : MonoBehaviour
 
         //Destroy childeren (thrusters)
         Debug.Log(transform.childCount);
-        while (transform.childCount > 0)
+        foreach (Transform child in this.transform)
         {
-            Destroy(transform.GetChild(0).gameObject);            
+            Destroy(child.gameObject);
         }
 
         //play explosion SFX
