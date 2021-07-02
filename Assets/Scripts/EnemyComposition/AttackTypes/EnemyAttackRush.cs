@@ -28,24 +28,15 @@ public class EnemyAttackRush : MonoBehaviour
         {
             _targetPos = _player.transform.position;
             transform.position = Vector3.MoveTowards(transform.position, _targetPos, _rushSpeed * Time.deltaTime);
-
+            //change direction to movement direction
             _direction = (transform.position - _targetPos).normalized;       
                 float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle + 270f, Vector3.forward);
         }
-        //Debug.Log(Vector3.Distance(transform.position, _player.transform.position));
         else
         {
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0,0,0);
         }
-        /*
-        _direction = (transform.position - _targetPos).normalized;
-        if (_direction != Vector2.zero)
-        {
-            float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle + 270f, Vector3.forward);
-        }
-        */
     }
 }

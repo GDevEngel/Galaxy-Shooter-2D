@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMoveCircular : MonoBehaviour
 {
-    private float _angle = 90f;
+    private float _angle = 90f; //set to 90 so it starts at the top of the circle
     [SerializeField] private float _speed = 0.5f; //(2 * Mathf.PI) / 5f; //2*PI in degress is 360, so you get 5 seconds to complete a circle
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _centerPosX, _centerPosY;
@@ -14,7 +14,7 @@ public class EnemyMoveCircular : MonoBehaviour
     void Start()
     {
         _centerPosX = Random.Range(-8f, 8f);
-        _centerPosY = Random.Range(8f, 9f);
+        _centerPosY = Random.Range(5f, 9f);
         _radius = Random.Range(5f, 12f);
         _speed = Random.Range(0.5f, 1f);
         if (Random.value > 0.5f)
