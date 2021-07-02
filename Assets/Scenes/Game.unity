@@ -3270,24 +3270,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnInterval: 3
-  enemyPrefab: {fileID: 2715077876768039526, guid: 425ebab162850164a94cf1b0bedba5b0,
-    type: 3}
   enemyContainer: {fileID: 23641200}
+  _enemyWeightTable: 1e0000000f0000000f0000000a0000000a0000000a0000000a000000
+  _enemyPrefabs:
+  - {fileID: 4597149773911459446, guid: 3d1e3270b9b75b441b9071f13c9fb09c, type: 3}
+  - {fileID: 5769902424430802258, guid: 79c9b7f80fa51a84ca71e45f8e29416a, type: 3}
+  - {fileID: 4995519342085415086, guid: d5ee1395ceffb79479ab3993bcb77bbb, type: 3}
+  - {fileID: 7111888965927818980, guid: 3d7472386b4f68d438f540003be92c2c, type: 3}
+  - {fileID: 5880527621821994780, guid: 14047972fce706748a45a2ed4d2dace2, type: 3}
+  - {fileID: 904355076764786355, guid: 11e0096547766ce4e8bebbea15e8ba53, type: 3}
+  - {fileID: 9014255925557823064, guid: 665d5871dedd8ff4f80e1bfd41498f2e, type: 3}
+  _enemyWeightTotal: 0
+  randomEnemyNumber: 0
   _minPosX: -9.5
   _maxPosX: 9.5
   _startPosY: 8
   _minSpawnIntervalPowerup: 3
   _maxSpawnIntervalPowerup: 7
-  PowerUpPrefabs:
+  _powerUpWeightTable: 280000001900000019000000120000000a0000000a00000014000000
+  powerUpsPrefabs:
+  - {fileID: 7210924092588028899, guid: 59a80c0438d75564fbaaccbbf0a5ed79, type: 3}
   - {fileID: 1795379107988335695, guid: cf595082bac256c4793b829f06ce4d9d, type: 3}
   - {fileID: 4451378622498900236, guid: d93b0d86bad3f1340ab9ee803bfd681b, type: 3}
   - {fileID: 600053866489213413, guid: 8f0d94a82fb3bc54285ea4c0f1b9950c, type: 3}
-  - {fileID: 7210924092588028899, guid: 24fbb43dc5d982d4687e4984fc089457, type: 3}
-  - {fileID: 7210924092588028899, guid: 59a80c0438d75564fbaaccbbf0a5ed79, type: 3}
   - {fileID: 3962055611199910088, guid: a83a904317b55b740b9df3e87989a4de, type: 3}
+  - {fileID: 7210924092588028899, guid: 24fbb43dc5d982d4687e4984fc089457, type: 3}
   - {fileID: 8176140564678426844, guid: afcc81fbd3f72f44c81fadfb2a26797e, type: 3}
-  _minPowerupID: 0
-  _maxPowerupIDplusOne: 7
+  _total: 0
+  randomNumber: 0
 --- !u!4 &1420123301
 Transform:
   m_ObjectHideFlags: 0
@@ -3327,7 +3337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1489690090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3341,6 +3351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _minPosY: -8
+  _maxPosX: 9.5
+  _minPosX: -9.5
 --- !u!60 &1489690091
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4685,75 +4698,6 @@ Transform:
   m_Father: {fileID: 1230993325}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5880527621662709662
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994771, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880527621821994780, guid: 14047972fce706748a45a2ed4d2dace2,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyDodger
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 14047972fce706748a45a2ed4d2dace2, type: 3}
 --- !u!95 &6067934355376298051
 Animator:
   serializedVersion: 3

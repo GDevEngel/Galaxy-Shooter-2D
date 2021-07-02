@@ -9,7 +9,11 @@ public class EnemyAttackRush : MonoBehaviour
     [SerializeField] private float _minDistance = 4f;
     private float _rushSpeed = 4f;
     private Vector3 _targetPos;
-    private Vector2 _direction; 
+    private Vector2 _direction;
+
+    [SerializeField] private float _minPosY = -8f;
+    [SerializeField] private float _maxPosX = 9.5f;
+    [SerializeField] private float _minPosX = -9.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,10 @@ public class EnemyAttackRush : MonoBehaviour
         {
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0,0,0);
+            if (transform.position.y <= _minPosY)
+            {
+                transform.position = new Vector3(Random.Range(_minPosX, _maxPosX), transform.position.y * -1, 0);
+            }
         }
     }
 }

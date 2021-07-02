@@ -25,8 +25,7 @@ public class EnemyMoveDodge : MonoBehaviour
             Debug.LogError("EnemyMoveDodge.collider is NULL");
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (_isAlive) // double check to prevent bug that executes while loop while enemy is already dead

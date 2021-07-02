@@ -118,8 +118,9 @@ GameObject:
   - component: {fileID: 5769902424430802260}
   - component: {fileID: 5769902424430802255}
   - component: {fileID: 8909665135465540188}
+  - component: {fileID: 410892994610712281}
   m_Layer: 0
-  m_Name: EnemyComposed
+  m_Name: EnemyCircular
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -471,6 +472,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fireRate: 2.5
+  _enemyLaser: {fileID: 1957491172842679763, guid: 7046ff1b7d7b65b4abedc5f2db7ea418,
+    type: 3}
+--- !u!114 &410892994610712281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769902424430802258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d0bb65d8e17144d88c632292f66cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireRate: 1
   _enemyLaser: {fileID: 1957491172842679763, guid: 7046ff1b7d7b65b4abedc5f2db7ea418,
     type: 3}
 --- !u!1 &5769902424634656258

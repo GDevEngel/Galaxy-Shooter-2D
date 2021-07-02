@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _switchTime: 1
+  _switchTime: 2
 --- !u!114 &8379588347718735918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,3 +586,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _minPosY: -8
+  _maxPosX: 9.5
+  _minPosX: -9.5
