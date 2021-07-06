@@ -32,19 +32,11 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //null check enemy prefab
-        /*if (enemyPrefab == null)
-        {
-            Debug.LogError("Spawnmanager.enemyprefab is NULL");
-        }*/
         if (enemyContainer == null)
         {
             Debug.LogError("Spawnmanager.enemycontainer is NULL");
         }
-        //if (PowerUpPrefabs[] == null)
-        //{
-        //    Debug.LogError("Spawnmanager.powerup is NULL");
-        //}
+        //TODO null check GameObject[] x2?
 
         StartSpawning();
     }
