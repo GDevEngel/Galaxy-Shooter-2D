@@ -70,7 +70,7 @@ public class EnemyDamage : MonoBehaviour
         Destroy(GetComponent<PolygonCollider2D>());
 
         //Destroy childeren (thrusters)
-        Debug.Log(transform.childCount);
+        //Debug.Log(transform.childCount);
         foreach (Transform child in this.transform)
         {
             Destroy(child.gameObject);

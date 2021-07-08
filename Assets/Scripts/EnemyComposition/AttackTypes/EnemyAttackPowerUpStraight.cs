@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnenmyAttackPowerUpStraight : MonoBehaviour
+public class EnemyAttackPowerUpStraight : MonoBehaviour
 {
     [SerializeField] private float _fireRate = 1f;
     private float _nextFire = 0f;
@@ -20,7 +20,7 @@ public class EnenmyAttackPowerUpStraight : MonoBehaviour
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position + _offset, Vector2.down);
                 // If it hits tag PowerUp
-                Debug.Log(hit.transform.tag);
+                //Debug.Log(hit.transform.tag);
                 if (hit.transform.tag == "PowerUp" && Time.time > _nextFire)
                 {
                     _nextFire = Time.time + _fireRate;

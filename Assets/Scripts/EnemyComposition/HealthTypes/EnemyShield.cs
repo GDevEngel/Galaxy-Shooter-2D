@@ -5,41 +5,20 @@ using UnityEngine;
 public class EnemyShield : MonoBehaviour
 {
     private Player _player;
-    private Animator _animator;
-    private AudioSource _audioSource;
-    [SerializeField] private AudioClip _explosionAudioClip;
     private bool _isAlive = true;
 
+    [SerializeField] GameObject _explosionPrefab;
     [SerializeField] private GameObject _shield;
     private bool _isShieldActive = true;
 
     private void Start()
     {
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
-        _animator = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
-
         _shield.SetActive(true);
 
         if (_player == null)
         {
             Debug.LogError("EnemyShield.player is NULL");
-        }
-        if (_animator == null)
-        {
-            Debug.LogError("EnemyShield.animator is NULL");
-        }
-        if (_shield == null)
-        {
-            Debug.LogError("EnemyShield.shield is NULL");
-        }
-        if (_audioSource == null)
-        {
-            Debug.LogError("EnemyShield.audiosource is NULL");
-        }
-        else
-        {
-            _audioSource.clip = _explosionAudioClip;
         }
     }
 
@@ -69,9 +48,8 @@ public class EnemyShield : MonoBehaviour
                 //dmg player
                 _player.Damage();
                 //add 10 to score
-                _player.AddScore(10);
-                //destroy us
-                StartCoroutine(EnemyDeath());
+                _player.AddScore(10);                
+                EnemyDeath();
             }
             //if other is laser
             else if (other.tag == "Laser")
@@ -80,24 +58,24 @@ public class EnemyShield : MonoBehaviour
                 Destroy(other.gameObject);
                 //add score
                 _player.AddScore(20);
-                //destroy us
-                StartCoroutine(EnemyDeath());
+                EnemyDeath();
             }
         }
     }
 
-    IEnumerator EnemyDeath()
+    private void EnemyDeath()
     {
         //to stop fire routine
         _isAlive = false;
-        //play death anim
-        _animator.SetTrigger("OnEnemyDeath");
-        //destroy collider?
-        Destroy(GetComponent<PolygonCollider2D>());
-        //play explosion SFX
-        _audioSource.Play();
-        //wait for animmation to end
-        yield return new WaitForSeconds(3f);
-        Destroy(this.gameObject);
+        //Destroy childeren (thrusters)
+        foreach (Transform child in this.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        //Spawn Explosion
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+
+        Destroy(GetComponent<Collider2D>());    // coz of the 0.5f delay of the explosion for VFX reasons
+        Destroy(this.gameObject, 0.5f);
     }
 }

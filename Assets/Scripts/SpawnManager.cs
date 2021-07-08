@@ -69,6 +69,7 @@ public class SpawnManager : MonoBehaviour
                 {
                     Vector3 spawnPos = new Vector3(Random.Range(_minPosX, _maxPosX), _startPosY, 0);
                     GameObject newEnemy = Instantiate(_enemyPrefabs[i], spawnPos, Quaternion.identity);
+                    Debug.Log("SpawnManager: spawining enemy of type: "+_enemyPrefabs[i]);
                     //set parent to container
                     newEnemy.transform.parent = enemyContainer.transform;
                     break;

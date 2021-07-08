@@ -37,11 +37,8 @@ public class EnemyMine : MonoBehaviour
 
         if (Vector3.Distance(transform.position, _player.transform.position) <= _minDistance)
         {
-            Debug.Log("EnemyMine: player got close");
-            //TODO Instantiate 8 projectiles with velocity
-
-
-
+            //Debug.Log("EnemyMine: player got close");
+            
             for (int i = 0; i < 8; i++)
             {
                 //tbh dont know why it's 1/7. mb coz 1st angle will be zero coz of i. just found it by tweaking the number...

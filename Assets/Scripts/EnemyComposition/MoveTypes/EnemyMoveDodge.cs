@@ -14,15 +14,22 @@ public class EnemyMoveDodge : MonoBehaviour
     private Vector3 _offset = new Vector3(0, -2f, 0);
 
     private Collider2D _collider;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _dodgeSFX;
 
     private bool _isAlive = true;
 
     private void Start()
     {
         _collider = GetComponent<PolygonCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
         if (_collider == null)
         {
             Debug.LogError("EnemyMoveDodge.collider is NULL");
+        }
+        if (_audioSource == null)
+        {
+            Debug.LogError("EnemyMOveDodge.audiosource is NULL");
         }
     }
     
@@ -46,7 +53,8 @@ public class EnemyMoveDodge : MonoBehaviour
                     }
                     transform.Translate(Vector3.left * _dodgeRange);
 
-                    //TODO Insert dodge SFX
+                    // dodge SFX
+                    _audioSource.PlayOneShot(_dodgeSFX, 1f);
                 }
             }
         }
