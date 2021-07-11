@@ -8,7 +8,8 @@ public class EnemyDamage : MonoBehaviour
     private Animator _animator;
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionAudioClip;
-    private bool _isAlive;
+
+    private SpawnManager _spawnManager;
 
     private void Start()
     {
@@ -31,6 +32,11 @@ public class EnemyDamage : MonoBehaviour
         else
         {
             _audioSource.clip = _explosionAudioClip;
+        }
+        _spawnManager = FindObjectOfType<SpawnManager>().GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("EnemyDamage.spawnmanager is NULL");
         }
     }
 
@@ -63,7 +69,6 @@ public class EnemyDamage : MonoBehaviour
     IEnumerator EnemyDeath()
     {
         //to stop fire routine
-        _isAlive = false;
         //play death anim
         _animator.SetTrigger("OnEnemyDeath");
         //destroy collider?
@@ -78,6 +83,9 @@ public class EnemyDamage : MonoBehaviour
 
         //play explosion SFX
         _audioSource.Play();
+
+        _spawnManager.DecreaseEnemiesLeft();
+
         //wait for animmation to end
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);

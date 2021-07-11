@@ -5,11 +5,14 @@ using UnityEngine;
 public class EnemyShield : MonoBehaviour
 {
     private Player _player;
-    private bool _isAlive = true;
 
     [SerializeField] GameObject _explosionPrefab;
     [SerializeField] private GameObject _shield;
     private bool _isShieldActive = true;
+
+    //handle
+    private SpawnManager _spawnManager;
+
 
     private void Start()
     {
@@ -20,6 +23,12 @@ public class EnemyShield : MonoBehaviour
         {
             Debug.LogError("EnemyShield.player is NULL");
         }
+        _spawnManager = FindObjectOfType<SpawnManager>().GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("EnemyShield.spawnmanager is NULL");
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -66,7 +75,6 @@ public class EnemyShield : MonoBehaviour
     private void EnemyDeath()
     {
         //to stop fire routine
-        _isAlive = false;
         //Destroy childeren (thrusters)
         foreach (Transform child in this.transform)
         {
@@ -74,6 +82,8 @@ public class EnemyShield : MonoBehaviour
         }
         //Spawn Explosion
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+
+        _spawnManager.DecreaseEnemiesLeft();
 
         Destroy(GetComponent<Collider2D>());    // coz of the 0.5f delay of the explosion for VFX reasons
         Destroy(this.gameObject, 0.5f);

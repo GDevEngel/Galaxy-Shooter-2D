@@ -9,24 +9,20 @@ public class EnemyAttackPowerUpStraight : MonoBehaviour
 
     [SerializeField] private GameObject _enemyLaser;
     private Vector3 _offset = new Vector3(0, -0.9f, 0);
-    private bool _isAlive = true;
 
     // Update is called once per frame
     void Update()
     {
-        if (_isAlive) // double check to prevent bug that executes while loop while enemy is already dead
+        if (GetComponent<PolygonCollider2D>() != null)
         {
-            if (GetComponent<PolygonCollider2D>() != null)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position + _offset, Vector2.down);
+            //Debug.Log(hit.transform.tag);
+            if (hit.transform.tag == "PowerUp" && Time.time > _nextFire)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position + _offset, Vector2.down);
-                // If it hits tag PowerUp
-                //Debug.Log(hit.transform.tag);
-                if (hit.transform.tag == "PowerUp" && Time.time > _nextFire)
-                {
-                    _nextFire = Time.time + _fireRate;
-                    Instantiate(_enemyLaser, transform.position + _offset, Quaternion.identity);
-                }
+                _nextFire = Time.time + _fireRate;
+                Instantiate(_enemyLaser, transform.position + _offset, Quaternion.identity);
             }
         }
+        
     }
 }

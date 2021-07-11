@@ -5,17 +5,23 @@ using UnityEngine;
 public class EnemyDamageSpawnExp : MonoBehaviour
 {
     private Player _player;
-    private bool _isAlive;
 
     [SerializeField] GameObject _explosionPrefab;
+
+    private SpawnManager _spawnManager;
 
     private void Start()
     {
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();    
         if (_player == null)
         {
-            Debug.LogError("EnemyDamage.player is NULL");
-        }        
+            Debug.LogError("EnemyDamageSpawnExp.player is NULL");
+        }
+        _spawnManager = FindObjectOfType<SpawnManager>().GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("EnemyDamageSpawnExp.spawnmanager is NULL");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,7 +44,6 @@ public class EnemyDamageSpawnExp : MonoBehaviour
     private void EnemyDeath()
     {
         //to stop fire routine
-        _isAlive = false;
         //Destroy childeren (thrusters)
         foreach (Transform child in this.transform)
         {
@@ -46,6 +51,8 @@ public class EnemyDamageSpawnExp : MonoBehaviour
         }
         //Spawn Explosion
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+
+        _spawnManager.DecreaseEnemiesLeft();
         
         Destroy(GetComponent<Collider2D>());    // coz of the 0.5f delay of the explosion for VFX reasons
         Destroy(this.gameObject, 0.5f);

@@ -13,8 +13,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int _enemyWeightTotal = 0;
     [SerializeField] private int randomEnemyNumber;
 
-
-
+    
     [SerializeField] private float _minPosX, _maxPosX, _startPosY;
 
     //power up config
@@ -26,39 +25,78 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int _total = 0;
     [SerializeField] private int randomNumber;
 
+    //wave config
+    private int _waveNumber = 0;
+    private int _enemiesToSpawn = 0;
+    [SerializeField] private int _ratioWaveEnemies = 1;
+    private int _enemiesLeft = 0;
+
+    //handles
+    private UIManager _uIManager;
 
     private bool _stopSpawning = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        _uIManager = FindObjectOfType<UIManager>().GetComponent<UIManager>();
+        if (_uIManager == null)
+        { Debug.LogError("SpawnManager.uimanger is NULL"); }
+
         if (enemyContainer == null)
-        {
-            Debug.LogError("Spawnmanager.enemycontainer is NULL");
-        }
+        { Debug.LogError("Spawnmanager.enemycontainer is NULL"); }
         //TODO null check GameObject[] x2?
 
-        StartSpawning();
+        NextWave();
     }
+
+    private void NextWave()
+    {
+        //start next wave
+            _waveNumber++;
+            _uIManager.UpdateUIWave(_waveNumber);
+
+            _enemiesToSpawn = _waveNumber * _ratioWaveEnemies;
+            _enemiesLeft = _enemiesToSpawn;
+            _uIManager.UpdateUIEnemiesLeft(_enemiesLeft);
+
+            //decrease spawn interval each wave
+            _spawnInterval *= 0.9f;
+
+            StartSpawning();        
+    }
+
+    public void DecreaseEnemiesLeft()
+    {
+        _enemiesLeft--;
+        _uIManager.UpdateUIEnemiesLeft(_enemiesLeft);
+        if (_enemiesLeft <= 0)
+        {
+            NextWave();
+        }
+    }
+
 
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
-        //TO DO enable background scroll scripts
     }
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        //yield return new WaitForSeconds(3f);
 
         foreach (var weight in _enemyWeightTable)
         {
             _enemyWeightTotal += weight;
         }
 
+        //test
+        Debug.Log("spawn enemy routine started");
+
         //while player is alive
-        while (_stopSpawning == false)
+        while (_enemiesToSpawn > 0 && _stopSpawning == false)
         {
             //spawn enemy
             randomEnemyNumber = Random.Range(0, _enemyWeightTotal);
@@ -70,17 +108,19 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawnPos = new Vector3(Random.Range(_minPosX, _maxPosX), _startPosY, 0);
                     GameObject newEnemy = Instantiate(_enemyPrefabs[i], spawnPos, Quaternion.identity);
                     Debug.Log("SpawnManager: spawining enemy of type: "+_enemyPrefabs[i]);
+                    _enemiesToSpawn--;
                     //set parent to container
-                    newEnemy.transform.parent = enemyContainer.transform;
+                    newEnemy.transform.parent = enemyContainer.transform;                    
                     break;
                 }
                 else
                 {
                     randomEnemyNumber -= _enemyWeightTable[i];
                 }
-                //wait for seconds
-                yield return new WaitForSeconds(_spawnInterval);
             }
+            //Debug.Log("enemies to spawn: " + _enemiesToSpawn);
+            _uIManager.UpdateEnemiesToSpawn(_enemiesToSpawn);
+            yield return new WaitForSeconds(_spawnInterval);            
         }
     }
 
@@ -90,7 +130,7 @@ public class SpawnManager : MonoBehaviour
         {
             _total += weight;
         }
-        while (_stopSpawning == false)
+        while (_enemiesLeft > 0 && _stopSpawning == false)
         {
             //random spawn time
             float spawnIntervalPowerup = Random.Range(_minSpawnIntervalPowerup, _maxSpawnIntervalPowerup);

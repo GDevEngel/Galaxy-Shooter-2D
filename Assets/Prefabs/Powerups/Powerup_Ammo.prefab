@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minPosY: -8
   _speed: 3
-  _powerupSFX: {fileID: 8300000, guid: 5024e369aba27c74197aff9cd68fc322, type: 3}
+  _powerupSFX: {fileID: 8300000, guid: 994f58f092907484ebe7bb2ccf4329db, type: 3}
   powerupID: 4
 --- !u!50 &2594054406967001790
 Rigidbody2D:

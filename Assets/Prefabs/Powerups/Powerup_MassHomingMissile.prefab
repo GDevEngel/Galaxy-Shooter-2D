@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3962055611199910085}
   - component: {fileID: 3962055611199910084}
-  - component: {fileID: 3962055611199910087}
   - component: {fileID: 3962055611199910086}
   - component: {fileID: 3962055611199910089}
   - component: {fileID: 3962055611199910082}
@@ -85,25 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3962055611199910087
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3962055611199910088}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!58 &3962055611199910086
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -155,5 +135,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minPosY: -8
   _speed: 3
-  _powerupSFX: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  _powerupSFX: {fileID: 8300000, guid: 75faed092ff24ea4a89eb57f44115f71, type: 3}
   powerupID: 5

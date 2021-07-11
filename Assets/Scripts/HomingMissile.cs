@@ -37,7 +37,7 @@ public class HomingMissile : MonoBehaviour
         //transform.Translate(_direction * Time.deltaTime * _directionModifier); this results is a tendecy for rockets to circle left??
 
         //check for boxcolider coz that gets destroyed before the gameobject in our case for vfx
-        if (_target.gameObject.GetComponent<BoxCollider2D>() == null || _target.gameObject == null)
+        if (_target.gameObject.GetComponent<PolygonCollider2D>() == null || _target.gameObject == null)
         {
             FindClosestEnemy();
         }

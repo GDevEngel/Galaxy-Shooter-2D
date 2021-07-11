@@ -17,8 +17,6 @@ public class EnemyMoveDodge : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _dodgeSFX;
 
-    private bool _isAlive = true;
-
     private void Start()
     {
         _collider = GetComponent<PolygonCollider2D>();
@@ -29,33 +27,30 @@ public class EnemyMoveDodge : MonoBehaviour
         }
         if (_audioSource == null)
         {
-            Debug.LogError("EnemyMOveDodge.audiosource is NULL");
+            Debug.LogError("EnemyMoveDodge.audiosource is NULL");
         }
     }
     
     void Update()
     {
-        if (_isAlive) // double check to prevent bug that executes while loop while enemy is already dead
+        if (_collider)
         {
-            if (_collider)
+            RaycastHit2D hit = Physics2D.BoxCast(transform.position + _offset, _boxSize, _angle, Vector2.down, _maxDistance);
+            // If raycast hits tag Laser
+            // Debug.Log(hit.transform.tag);
+            if (hit.transform.tag == "Laser" && Time.time > _nextDodge)
             {
-                RaycastHit2D hit = Physics2D.BoxCast(transform.position + _offset, _boxSize, _angle, Vector2.down, _maxDistance);
-                // If raycast hits tag Laser
-                // Debug.Log(hit.transform.tag);
-                if (hit.transform.tag == "Laser" && Time.time > _nextDodge)
+                _nextDodge = Time.time + _dodgeRate;
+
+                //randomize dodge direction
+                if (Random.value > 0.5)
                 {
-                    _nextDodge = Time.time + _dodgeRate;
-
-                    //randomize dodge direction
-                    if (Random.value > 0.5)
-                    {
-                        _dodgeRange *= -1f;
-                    }
-                    transform.Translate(Vector3.left * _dodgeRange);
-
-                    // dodge SFX
-                    _audioSource.PlayOneShot(_dodgeSFX, 1f);
+                    _dodgeRange *= -1f;
                 }
+                transform.Translate(Vector3.left * _dodgeRange);
+
+                // dodge SFX
+                _audioSource.PlayOneShot(_dodgeSFX, 1f);
             }
         }
     }

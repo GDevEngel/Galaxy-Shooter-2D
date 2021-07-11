@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5880527621821994778}
   - component: {fileID: 5880527621821994781}
   - component: {fileID: 505024513}
+  - component: {fileID: -5929988599375188468}
   m_Layer: 0
   m_Name: EnemyDodger
   m_TagString: Enemy
@@ -684,6 +685,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosionPrefab: {fileID: 5179426158052892275, guid: ce2840f895a483e4882597133bf3a656,
+    type: 3}
+--- !u!114 &-5929988599375188468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5880527621821994780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb16615e48f50549842b342a2087e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireRate: 2
+  _enemyLaser: {fileID: 2160897167786524090, guid: c3f8da5385690a94c99c67ac6ac9238e,
     type: 3}
 --- !u!1 &5880527622650038526
 GameObject:

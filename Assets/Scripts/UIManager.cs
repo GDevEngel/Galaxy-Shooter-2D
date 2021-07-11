@@ -7,6 +7,13 @@ public class UIManager : MonoBehaviour
 {
     private int _score;
     [SerializeField] private Text _scoreText;
+    private int _waveNumber;
+    [SerializeField] private Text _waveText;
+    private int _enemiesLeft;
+    [SerializeField] private Text _enemiesLeftText;
+    //TODEBUG
+    private int _enemiesToSpawn;
+    [SerializeField] private Text _enemiesToSpawnText;
     [SerializeField] private GameObject _GameOverText;
     [SerializeField] private GameObject _RestartText;
 
@@ -27,7 +34,12 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _score = 0;
-        _scoreText.text = "Score: " + 0;
+        _scoreText.text = "Score: " + _score;
+        _waveText.text = "Wave: " + _waveNumber;
+        _enemiesLeftText.text = "Enemies left: " + _enemiesLeft;
+        //TODEBUG
+        _enemiesToSpawn = 0;
+        _enemiesToSpawnText.text = "Incoming: " + _enemiesToSpawn;
 
         _GameOverText.SetActive(false);
         _RestartText.SetActive(false);
@@ -49,6 +61,25 @@ public class UIManager : MonoBehaviour
     {
         _score += scoreUpdate;
         _scoreText.text = "Score: " + _score;
+    }
+
+    public void UpdateUIWave(int waveUpdate)
+    {
+        _waveNumber = waveUpdate;
+        _waveText.text = "Wave: " + _waveNumber;
+    }
+
+    public void UpdateUIEnemiesLeft(int enemiesLeftUpdate)
+    {
+        _enemiesLeft = enemiesLeftUpdate;
+        _enemiesLeftText.text = "Enemies left: " + _enemiesLeft;
+    }
+
+    //TODEBUG
+    public void UpdateEnemiesToSpawn(int enemiesToSpawn)
+    {
+        _enemiesToSpawn = enemiesToSpawn;
+        _enemiesToSpawnText.text = "Incoming: " + _enemiesToSpawn;
     }
 
     public void UpdateUIHealth(int currentHealth)
