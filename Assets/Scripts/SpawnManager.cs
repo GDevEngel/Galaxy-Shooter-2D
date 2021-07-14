@@ -31,6 +31,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int _ratioWaveEnemies = 1;
     private int _enemiesLeft = 0;
 
+    //boss
+    [SerializeField] private int _bossWave;
+    [SerializeField] GameObject _boss;
+    [SerializeField] private Vector3 _bossSpawnPos = new Vector3(0, 20f, 0);
+    [SerializeField] private GameObject _bossUIText;
+    private Canvas _canvas;
+
     //handles
     private UIManager _uIManager;
 
@@ -40,12 +47,11 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         _uIManager = FindObjectOfType<UIManager>().GetComponent<UIManager>();
-        if (_uIManager == null)
-        { Debug.LogError("SpawnManager.uimanger is NULL"); }
-
-        if (enemyContainer == null)
-        { Debug.LogError("Spawnmanager.enemycontainer is NULL"); }
+        if (_uIManager == null) { Debug.LogError("SpawnManager.uimanger is NULL"); }
+        if (enemyContainer == null) { Debug.LogError("Spawnmanager.enemycontainer is NULL"); }
         //TODO null check GameObject[] x2?
+
+        _canvas = FindObjectOfType<Canvas>();
 
         NextWave();
     }
@@ -53,17 +59,26 @@ public class SpawnManager : MonoBehaviour
     private void NextWave()
     {
         //start next wave
-            _waveNumber++;
-            _uIManager.UpdateUIWave(_waveNumber);
+        _waveNumber++;
+        _uIManager.UpdateUIWave(_waveNumber);
 
+        if (_waveNumber == _bossWave)
+        {
+            GameObject newBossUIText = Instantiate(_bossUIText, _canvas.transform.position, Quaternion.identity);
+            newBossUIText.transform.SetParent(_canvas.transform);
+            Instantiate(_boss, _bossSpawnPos, Quaternion.identity);
+        }
+        else
+        {
             _enemiesToSpawn = _waveNumber * _ratioWaveEnemies;
             _enemiesLeft = _enemiesToSpawn;
             _uIManager.UpdateUIEnemiesLeft(_enemiesLeft);
+        }
 
-            //decrease spawn interval each wave
-            _spawnInterval *= 0.9f;
+        //decrease spawn interval each wave
+        //_spawnInterval *= 0.9f;
 
-            StartSpawning();        
+        StartSpawning();        
     }
 
     public void DecreaseEnemiesLeft()
@@ -93,7 +108,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //test
-        Debug.Log("spawn enemy routine started");
+        Debug.Log("spawn enemy routine started. wave: "+ _waveNumber);
 
         //while player is alive
         while (_enemiesToSpawn > 0 && _stopSpawning == false)
@@ -107,7 +122,7 @@ public class SpawnManager : MonoBehaviour
                 {
                     Vector3 spawnPos = new Vector3(Random.Range(_minPosX, _maxPosX), _startPosY, 0);
                     GameObject newEnemy = Instantiate(_enemyPrefabs[i], spawnPos, Quaternion.identity);
-                    Debug.Log("SpawnManager: spawining enemy of type: "+_enemyPrefabs[i]);
+                    Debug.Log("SpawnManager: spawining enemy of type: "+_enemyPrefabs[i]+" Time: "+Time.time);
                     _enemiesToSpawn--;
                     //set parent to container
                     newEnemy.transform.parent = enemyContainer.transform;                    

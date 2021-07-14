@@ -2885,7 +2885,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -3337,6 +3337,11 @@ MonoBehaviour:
   _total: 0
   randomNumber: 0
   _ratioWaveEnemies: 1
+  _bossWave: 2
+  _boss: {fileID: 4299206587832085908, guid: 0890247cd6d1c7b49bd6b799c8e26931, type: 3}
+  _bossSpawnPos: {x: 0, y: 20, z: 0}
+  _bossUIText: {fileID: 8732919473849963883, guid: 3f3e0e8312b0a5b4493a3ae1e877a2e4,
+    type: 3}
 --- !u!4 &1420123301
 Transform:
   m_ObjectHideFlags: 0
