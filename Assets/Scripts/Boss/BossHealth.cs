@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
+    [SerializeField] SpawnManager _spawnManager;
+
     [SerializeField] GameObject _explosionPrefab;
     [SerializeField] GameObject _gameClearText;
     private Canvas _canvas;
@@ -20,6 +22,7 @@ public class BossHealth : MonoBehaviour
     void Start()
     {
         _player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
+        _spawnManager = GameObject.FindObjectOfType<SpawnManager>().GetComponent<SpawnManager>();
         _canvas = GameObject.FindObjectOfType<Canvas>(); 
 
         _audioSource = GetComponent<AudioSource>();

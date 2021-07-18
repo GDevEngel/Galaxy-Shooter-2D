@@ -3307,9 +3307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474f1b6a16b7e0b47bb757798ae3ea48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 3
+  _spawnInterval: 2
   enemyContainer: {fileID: 23641200}
-  _enemyWeightTable: 1e0000000f0000000f0000000a0000000a0000000a0000000a000000
+  _enemyWeightTable: 1e0000000a0000000f0000000a0000000a0000000a0000000a000000
   _enemyPrefabs:
   - {fileID: 4597149773911459446, guid: 3d1e3270b9b75b441b9071f13c9fb09c, type: 3}
   - {fileID: 5769902424430802258, guid: 79c9b7f80fa51a84ca71e45f8e29416a, type: 3}
@@ -3336,8 +3336,8 @@ MonoBehaviour:
   - {fileID: 8176140564678426844, guid: afcc81fbd3f72f44c81fadfb2a26797e, type: 3}
   _total: 0
   randomNumber: 0
-  _ratioWaveEnemies: 1
-  _bossWave: 2
+  _ratioWaveEnemies: 2
+  _bossWave: 6
   _boss: {fileID: 4299206587832085908, guid: 0890247cd6d1c7b49bd6b799c8e26931, type: 3}
   _bossSpawnPos: {x: 0, y: 20, z: 0}
   _bossUIText: {fileID: 8732919473849963883, guid: 3f3e0e8312b0a5b4493a3ae1e877a2e4,

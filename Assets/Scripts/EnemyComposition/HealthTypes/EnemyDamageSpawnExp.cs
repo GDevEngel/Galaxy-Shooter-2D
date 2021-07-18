@@ -36,7 +36,10 @@ public class EnemyDamageSpawnExp : MonoBehaviour
         {
             //destroy laser
             Destroy(other.gameObject);
-            _player.AddScore(10);
+            if (_player)
+            {
+                _player.AddScore(10);
+            }
             EnemyDeath();
         }
     }
@@ -53,7 +56,7 @@ public class EnemyDamageSpawnExp : MonoBehaviour
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
         _spawnManager.DecreaseEnemiesLeft();
-        
+                
         Destroy(GetComponent<Collider2D>());    // coz of the 0.5f delay of the explosion for VFX reasons
         Destroy(this.gameObject, 0.5f);
     }

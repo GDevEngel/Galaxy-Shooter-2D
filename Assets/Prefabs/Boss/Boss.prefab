@@ -883,11 +883,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4addd84f169bd6b47a215c042673b10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnManager: {fileID: 0}
   _explosionPrefab: {fileID: 5179426158052892275, guid: ce2840f895a483e4882597133bf3a656,
     type: 3}
   _gameClearText: {fileID: 8732919473849963883, guid: 4cafef83f3d35924b90ad9c88edb3d2a,
     type: 3}
-  _bossHealth: 10
+  _bossHealth: 40
 --- !u!114 &4299206587832085906
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private int[] _powerUpWeightTable;
     [SerializeField] private GameObject[] powerUpsPrefabs;
-    [SerializeField] private int _total = 0;
+    [SerializeField] private int _powerupWeightTotal = 0;
     [SerializeField] private int randomNumber;
 
     //wave config
@@ -37,6 +37,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Vector3 _bossSpawnPos = new Vector3(0, 20f, 0);
     [SerializeField] private GameObject _bossUIText;
     private Canvas _canvas;
+    private bool _isBossWave = false;
 
     //handles
     private UIManager _uIManager;
@@ -53,6 +54,18 @@ public class SpawnManager : MonoBehaviour
 
         _canvas = FindObjectOfType<Canvas>();
 
+
+        foreach (var enemyWeight in _enemyWeightTable)
+        {
+            _enemyWeightTotal += enemyWeight;
+        }
+
+        foreach (var weight in _powerUpWeightTable)
+        {
+            _powerupWeightTotal += weight;
+        }
+
+
         NextWave();
     }
 
@@ -67,6 +80,9 @@ public class SpawnManager : MonoBehaviour
             GameObject newBossUIText = Instantiate(_bossUIText, _canvas.transform.position, Quaternion.identity);
             newBossUIText.transform.SetParent(_canvas.transform);
             Instantiate(_boss, _bossSpawnPos, Quaternion.identity);
+            _isBossWave = true;
+            _minSpawnIntervalPowerup = 3f;
+            _maxSpawnIntervalPowerup = 4f;
         }
         else
         {
@@ -100,12 +116,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
-        //yield return new WaitForSeconds(3f);
-
-        foreach (var weight in _enemyWeightTable)
-        {
-            _enemyWeightTotal += weight;
-        }
+        yield return new WaitForSeconds(3f);
 
         //test
         Debug.Log("spawn enemy routine started. wave: "+ _waveNumber);
@@ -113,7 +124,7 @@ public class SpawnManager : MonoBehaviour
         //while player is alive
         while (_enemiesToSpawn > 0 && _stopSpawning == false)
         {
-            //spawn enemy
+            //spawn enemy          
             randomEnemyNumber = Random.Range(0, _enemyWeightTotal);
 
             for (int i = 0; i < _enemyWeightTable.Length; i++)
@@ -132,7 +143,7 @@ public class SpawnManager : MonoBehaviour
                 {
                     randomEnemyNumber -= _enemyWeightTable[i];
                 }
-            }
+            } 
             //Debug.Log("enemies to spawn: " + _enemiesToSpawn);
             _uIManager.UpdateEnemiesToSpawn(_enemiesToSpawn);
             yield return new WaitForSeconds(_spawnInterval);            
@@ -141,11 +152,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerUpRoutine()
     {
-        foreach (var weight in _powerUpWeightTable)
-        {
-            _total += weight;
-        }
-        while (_enemiesLeft > 0 && _stopSpawning == false)
+
+        while ((_enemiesLeft > 0 && _stopSpawning == false) || _isBossWave == true)
         {
             //random spawn time
             float spawnIntervalPowerup = Random.Range(_minSpawnIntervalPowerup, _maxSpawnIntervalPowerup);
@@ -155,7 +163,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPos = new Vector3(Random.Range(_minPosX, _maxPosX), _startPosY, 0);
 
             //spawn random powerup
-            randomNumber = Random.Range(0, _total);
+            randomNumber = Random.Range(0, _powerupWeightTotal);
             //Debug.Log("total:" + total + " randomnumber:" + randomNumber);
             for (int i = 0; i < _powerUpWeightTable.Length; i++)
             {

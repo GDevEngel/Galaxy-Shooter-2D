@@ -34,27 +34,28 @@ public class EnemyMine : MonoBehaviour
             Destroy(gameObject);
         }
 
-
-        if (Vector3.Distance(transform.position, _player.transform.position) <= _minDistance)
+        if (_player)
         {
-            //Debug.Log("EnemyMine: player got close");
-            
-            for (int i = 0; i < 8; i++)
+            if (Vector3.Distance(transform.position, _player.transform.position) <= _minDistance)
             {
-                //tbh dont know why it's 1/7. mb coz 1st angle will be zero coz of i. just found it by tweaking the number...
-                //changed it to a random range coz it seemed a tiny bit off
-                float angle = i * Mathf.PI * 2f / (1/Random.Range(7f,8f));
-                //Debug.Log("angle: "+angle);
-                GameObject mineShard = Instantiate(_mineShard, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
+                //Debug.Log("EnemyMine: player got close");
 
-                //quaternion x vector ORDER MATTERS
-                Vector3 movement = Quaternion.AngleAxis(angle, Vector3.forward) * new Vector3(0, _shardSpeed, 0);
+                for (int i = 0; i < 8; i++)
+                {
+                    //tbh dont know why it's 1/7. mb coz 1st angle will be zero coz of i. just found it by tweaking the number...
+                    //changed it to a random range coz it seemed a tiny bit off
+                    float angle = i * Mathf.PI * 2f / (1 / Random.Range(7f, 8f));
+                    //Debug.Log("angle: "+angle);
+                    GameObject mineShard = Instantiate(_mineShard, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
 
-                mineShard.GetComponent<Rigidbody2D>().velocity = movement;
-                
-        }
-            //Destroy mine
-            Destroy(this.gameObject);
+                    //quaternion x vector ORDER MATTERS
+                    Vector3 movement = Quaternion.AngleAxis(angle, Vector3.forward) * new Vector3(0, _shardSpeed, 0);
+
+                    mineShard.GetComponent<Rigidbody2D>().velocity = movement;
+                }
+                //Destroy mine
+                Destroy(this.gameObject);
+            }
         }
     }
 

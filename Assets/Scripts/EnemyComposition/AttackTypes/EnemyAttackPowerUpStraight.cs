@@ -17,10 +17,13 @@ public class EnemyAttackPowerUpStraight : MonoBehaviour
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + _offset, Vector2.down);
             //Debug.Log(hit.transform.tag);
-            if (hit.transform.tag == "PowerUp" && Time.time > _nextFire)
+            if (hit)
             {
-                _nextFire = Time.time + _fireRate;
-                Instantiate(_enemyLaser, transform.position + _offset, Quaternion.identity);
+                if (hit.transform.tag == "PowerUp" && Time.time > _nextFire)
+                {
+                    _nextFire = Time.time + _fireRate;
+                    Instantiate(_enemyLaser, transform.position + _offset, Quaternion.identity);
+                }
             }
         }
         
