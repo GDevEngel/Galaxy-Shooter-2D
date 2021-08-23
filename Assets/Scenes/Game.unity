@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3309,7 +3309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnInterval: 2
   enemyContainer: {fileID: 23641200}
-  _enemyWeightTable: 1e0000000a0000000f0000000a0000000a0000000a0000000a000000
+  _enemyWeightTable: 1e0000000c0000000c0000000a0000000c0000000c0000000a000000
   _enemyPrefabs:
   - {fileID: 4597149773911459446, guid: 3d1e3270b9b75b441b9071f13c9fb09c, type: 3}
   - {fileID: 5769902424430802258, guid: 79c9b7f80fa51a84ca71e45f8e29416a, type: 3}
@@ -3334,7 +3334,7 @@ MonoBehaviour:
   - {fileID: 3962055611199910088, guid: a83a904317b55b740b9df3e87989a4de, type: 3}
   - {fileID: 7210924092588028899, guid: 24fbb43dc5d982d4687e4984fc089457, type: 3}
   - {fileID: 8176140564678426844, guid: afcc81fbd3f72f44c81fadfb2a26797e, type: 3}
-  _total: 0
+  _powerupWeightTotal: 0
   randomNumber: 0
   _ratioWaveEnemies: 2
   _bossWave: 6
